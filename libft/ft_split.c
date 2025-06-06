@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 13:23:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/05 15:46:48 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:24:59 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	*cust_strcpy(char const *s, char c, size_t start)
 	return (ret);
 }
 
-static int	wcpy(char const *s, char c, char **ret)
+static void	wcpy(char const *s, char c, char **ret, int *error)
 {
 	size_t	i;
 	size_t	j;
@@ -88,7 +88,10 @@ static int	wcpy(char const *s, char c, char **ret)
 		{
 			ret[j] = cust_strcpy(s, c, i);
 			if (ret[j] == NULL)
-				return (freeall(ret));
+			{
+				*error = 1;
+				return ;
+			}
 			b = 1;
 			j++;
 		}
@@ -97,17 +100,24 @@ static int	wcpy(char const *s, char c, char **ret)
 		i++;
 	}
 	ret[j] = NULL;
-	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**ret;
+	int		error;
 
+	error = 0;
+	if (s == NULL)
+		return (NULL);
 	ret = (char **)malloc((wordcount(s, c) + 1) * sizeof(char *));
 	if (ret == NULL)
 		return (NULL);
-	if (wcpy(s, c, ret) == 0)
+	wcpy(s, c, ret, &error);
+	if (error == 1)
+	{
+		ft_free_all(ret);
 		return (NULL);
+	}
 	return (ret);
 }
