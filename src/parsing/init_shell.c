@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/05 16:10:16 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:27:43 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_init_shell(t_shell *shell, char **envp)
 	while (envp[i] != NULL)
 	{
 		line = ft_split(envp[i], '=');
-		/*if (line == NULL) // 	TODO: return 1 on error and clean up
+		/*if (line == NULL) //				TODO: error and clean up
 			//cleanup and error handling*/
 		current = ft_new_node(line[0], line[1]);
 		ft_env_node_add_back(&head, current);

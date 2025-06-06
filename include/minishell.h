@@ -42,7 +42,7 @@ typedef enum e_token_type
 	TOKEN_WORD,     // Words (commands, arguments, etc.)
 	TOKEN_PIPE,     // | (Pipe operator)
 	TOKEN_REDIR_IN, // < or << (Input redirections)
-	TOKEN_REDIR_OUT // > or >> (Output redirections)
+	TOKEN_REDIR_OUT // > or >> (Output redirections)	
 }			t_token_type;
 
 typedef struct s_token
@@ -82,5 +82,7 @@ typedef struct s_shell
 
 // init_shell
 void	ft_init_shell(t_shell *shell, char **envp);
+
+void	ft_token_handler(char *line);
 
 #endif
