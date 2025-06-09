@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:01:15 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/06 14:45:03 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:32:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	ft_shell_loop(t_shell *shell)
 		line = readline("Minishell$ ");
 		if (line == NULL)
 			break ;
-		ft_token_handler(line); //TODO
-		// Execute tokens (e.g. Pipe if necessary, execute command e.t.c)
+		ft_token_handler(line);
+		// TODO
 		add_history(line);
 	}
 }
