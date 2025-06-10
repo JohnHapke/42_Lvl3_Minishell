@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -80,9 +80,21 @@ typedef struct s_shell
 	int exit_status;  // Last exit code ($?)
 }			t_shell;
 
-// init_shell
+/*///////////////////////////////////*/
+//		Init & error handling      //
+/*///////////////////////////////////*/
+
 void	ft_init_shell(t_shell *shell, char **envp);
+
+
+/*///////////////////////////////////*/
+//		Tokenization                 //
+/*///////////////////////////////////*/
 
 void	ft_token_handler(char *line);
 
-#endif
+//* Token list
+void	ft_token_add_back(t_token **token_list, t_token *new_node);
+t_token	*ft_token_new_node(char *value, t_token_type type);
+
+#endif //MINISHELL_H

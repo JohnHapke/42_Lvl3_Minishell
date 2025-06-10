@@ -6,11 +6,11 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/06 14:27:43 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:03:53 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static t_env	*ft_new_node(char *key, char *value)
 {
@@ -51,7 +51,7 @@ void	ft_init_shell(t_shell *shell, char **envp)
 	{
 		line = ft_split(envp[i], '=');
 		/*if (line == NULL) //				TODO: error and clean up
-			//cleanup and error handling*/
+			*/
 		current = ft_new_node(line[0], line[1]);
 		ft_env_node_add_back(&head, current);
 		ft_free_all(line);
