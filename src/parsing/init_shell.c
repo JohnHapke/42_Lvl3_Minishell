@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:03:53 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:46:33 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_env	*ft_new_node(char *key, char *value)
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (new == NULL)
-		return (NULL);	
+		ft_error_handler();
 	new->key = key;
 	new->value = value;
 	new->next = NULL;

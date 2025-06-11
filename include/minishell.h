@@ -37,7 +37,7 @@ typedef enum e_redir_type
 	REDIR_HEREDOC // << (Here-document)
 }			t_redir_type;
 
-typedef enum e_token_type
+typedef enum	e_token_type
 {
 	TOKEN_WORD,     // Words (commands, arguments, etc.)
 	TOKEN_PIPE,     // | (Pipe operator)
