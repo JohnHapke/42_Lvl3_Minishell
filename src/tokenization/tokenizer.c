@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/10 14:31:12 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:25:05 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ static char	*ft_get_token_val(char *line, int *i,
 	return (token_val);
 }
 
-static void	ft_tokenize_input(char *line, t_token **token_list)
+int	ft_token_handler(char *line)
 {
 	int				i;
 	t_token_type	tok_type;
+	t_token			*token_list;
 
 	i = 0;
+	token_list = NULL;
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ')
@@ -62,16 +64,9 @@ static void	ft_tokenize_input(char *line, t_token **token_list)
 		else
 		{
 			tok_type = ft_get_token_type(line[i]);
-			ft_token_add_back(token_list, ft_token_new_node
+			ft_token_add_back(&token_list, ft_token_new_node
 						(ft_get_token_val(line, &i, tok_type), tok_type));
 		}
 	}
-}
-
-void	ft_token_handler(char *line)
-{
-	t_token	*token_list;
-
-	ft_tokenize_input(line, &token_list);
-	ft_parsing_handler(); //TODO
+	ft_parsing_handler(token_list);
 }
