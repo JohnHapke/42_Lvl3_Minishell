@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
+/*   Updated: 2025/06/13 15:53:37 by jhapke           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -12,6 +24,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define _POSIX_C_SOURCE 200809L
 
@@ -81,20 +94,36 @@ typedef struct s_shell
 }			t_shell;
 
 /*///////////////////////////////////*/
-//		Init & error handling      //
+//		Cleanup					     //
 /*///////////////////////////////////*/
 
-void	ft_init_shell(t_shell *shell, char **envp);
+void		ft_init_shell(t_shell *shell, char **envp);
 
 
 /*///////////////////////////////////*/
 //		Tokenization                 //
 /*///////////////////////////////////*/
 
-void	ft_token_handler(char *line);
+// tokenizer
 
-//* Token list
-void	ft_token_add_back(t_token **token_list, t_token *new_node);
-t_token	*ft_token_new_node(char *value, t_token_type type);
+int			ft_token_handler(char *line);
+static int	ft_get_token_type(char c);
+static char	*ft_get_token_val(char *line, int *i,
+				t_token_type token_type);
 
-#endif //MINISHELL_H
+// utils
+
+t_token		*ft_token_new_node(char *value, t_token_type type);
+void		ft_token_add_back(t_token **token_list, t_token *new_node);
+
+
+/*///////////////////////////////////*/
+//		Parsing		                 //
+/*///////////////////////////////////*/
+
+
+/*///////////////////////////////////*/
+//		Execution	                 //
+/*///////////////////////////////////*/
+
+#endif

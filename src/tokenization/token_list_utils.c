@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:55:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/10 14:13:05 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:30:21 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,7 @@ void	ft_token_add_back(t_token **token_list, t_token *new_node)
 		(current)->next = new_node;
 	}
 }
+
+
+/* cmd | cmd2 $key > redir */
+/* key=value */

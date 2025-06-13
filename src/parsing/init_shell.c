@@ -6,13 +6,13 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/11 15:46:33 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:48:26 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_env	*ft_new_node(char *key, char *value)
+static t_env	*ft_env_new_node(char *key, char *value)
 {
 	t_env	*new;
 
@@ -41,20 +41,17 @@ void	ft_init_shell(t_shell *shell, char **envp)
 {
 
 	int		i;
-	t_env	*head;	
-	t_env	*current;
 	char	**line;
 
 	i = 0;
-	head = NULL;
+	shell->env_list = NULL;
 	while (envp[i] != NULL)
 	{
 		line = ft_split(envp[i], '=');
-		/*if (line == NULL) //				TODO: error and clean up
-			*/
-		current = ft_new_node(line[0], line[1]);
-		ft_env_node_add_back(&head, current);
-		ft_free_all(line);
+		if (!line)
+			ft_error_handler();
+		ft_env_node_add_back(&shell->env_list, ft_env_new_node(line[0], line[1]));
+		free(line);
 		i++;
 	}
 	shell->env_array = envp;
