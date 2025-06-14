@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list_utils.c                                 :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:55:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/13 14:30:21 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:37:21 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*ft_token_new_node(char *value, t_token_type type)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (new == NULL)
-		return (NULL);	
+		ft_error_handler();	
 	new->type = type;
 	new->value = value;
 	new->next = NULL;
@@ -39,7 +39,3 @@ void	ft_token_add_back(t_token **token_list, t_token *new_node)
 		(current)->next = new_node;
 	}
 }
-
-
-/* cmd | cmd2 $key > redir */
-/* key=value */

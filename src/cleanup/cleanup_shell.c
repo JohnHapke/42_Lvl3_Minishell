@@ -3,10 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:13 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/05 15:28:14 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:44:17 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/minishell.h"
+
+//tbd

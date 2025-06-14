@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/13 15:53:37 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:57:23 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 extern int	g_signal;
 
+/* Data strucutres */
 typedef enum e_error_code
 {
 	ERROR_USAGE = 0,
@@ -93,37 +94,45 @@ typedef struct s_shell
 	int exit_status;  // Last exit code ($?)
 }			t_shell;
 
-/*///////////////////////////////////*/
-//		Cleanup					     //
-/*///////////////////////////////////*/
+/*	functions	*/
+// Shell
+static void		ft_env_add_back(t_env **lst, t_env *new_node);
+static t_env	*ft_env_new_node(char *key, char *value);
+void			ft_shell_init(t_shell *shell, char **envp);
+static void		ft_shell_loop(t_shell *shell);
 
-void		ft_init_shell(t_shell *shell, char **envp);
-
-
-/*///////////////////////////////////*/
-//		Tokenization                 //
-/*///////////////////////////////////*/
-
-// tokenizer
-
+// Tokenization
 int			ft_token_handler(char *line);
 static int	ft_get_token_type(char c);
-static char	*ft_get_token_val(char *line, int *i,
+static char	*ft_get_token_value(char *line, int *i,
 				t_token_type token_type);
-
-// utils
-
 t_token		*ft_token_new_node(char *value, t_token_type type);
 void		ft_token_add_back(t_token **token_list, t_token *new_node);
 
+// Parsing
 
-/*///////////////////////////////////*/
-//		Parsing		                 //
-/*///////////////////////////////////*/
+int			ft_token_validator(t_token *token_list);
+// expansion still in implementation -> no functions in header so far
+void		ft_parsing_handler(t_token *token_list);
+t_redir_type	ft_get_redir_type(char	*value);
+void	ft_command_handler(t_token *token_list, t_command **command);
+int	ft_count_arguments(t_token *token_list);
+void	ft_fill_command_node(t_token **token_list, t_command *command);
+void	ft_command_add_back(t_command **command, t_command *new_node);
+t_redir	*ft_new_node_redir(char	*file, t_redir_type type);
+void	ft_redir_add_back(t_redir **list, t_redir *new_node);
 
+// Execution
+/*	tbd	*/
 
-/*///////////////////////////////////*/
-//		Execution	                 //
-/*///////////////////////////////////*/
+// Builtins
+/*	tbd	*/
+
+// Signals
+/*	tbd	*/
+
+// Cleanup
+/*	tbd	*/
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/10 15:25:05 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:47:57 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ static int	ft_get_token_type(char c)
 		return (TOKEN_WORD);
 }
 
-//* Parser will have to handle things like invalid redirection values, (">>>" or "<<<<<<<") and unclosed quotes
-static char	*ft_get_token_val(char *line, int *i,
+static char	*ft_get_token_value(char *line, int *i,
 				t_token_type token_type)
 {
 	int		token_len;
 	char	break_char;
-	char	*token_val;
+	char	*token_value;
 
 	break_char = ' ';
 	if (line[*i] == '"' || line[*i] == '\'')
@@ -44,9 +43,9 @@ static char	*ft_get_token_val(char *line, int *i,
 		if (break_char == ' ' && ft_get_token_type(line[token_len]) != token_type)
 			break ;
 	}
-	token_val = ft_substr(line, *i, token_len - *i);
+	token_value = ft_substr(line, *i, token_len - *i);
 	*i = token_len;
-	return (token_val);
+	return (token_value);
 }
 
 int	ft_token_handler(char *line)
@@ -65,7 +64,7 @@ int	ft_token_handler(char *line)
 		{
 			tok_type = ft_get_token_type(line[i]);
 			ft_token_add_back(&token_list, ft_token_new_node
-						(ft_get_token_val(line, &i, tok_type), tok_type));
+				(ft_get_token_value(line, &i, tok_type), tok_type));
 		}
 	}
 	ft_parsing_handler(token_list);

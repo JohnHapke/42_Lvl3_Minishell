@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/13 16:25:06 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:34:22 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+// function programmed by Igor -> implementation in next commit 
+char	*ft_insert_str(char *str, char *insert, size_t where)
+{
+	char	*ret;
+
+	if (where > (ft_strlen(str) + ft_strlen(str)))
+	ret = ft_calloc(ft_strlen(str) + ft_strlen(insert), sizeof(char));
+	ft_memcpy(ret, str, where);
+	ft_memcpy(&ret[where], insert, ft_strlen(insert));
+	ft_memcpy(&ret[ft_strlen(insert) + where], &str[where], ft_strlen(&str[where]));
+	return (ret);
+}
 
 /*
 1. extract the variables and save them into t_env within t_shell (add_back)

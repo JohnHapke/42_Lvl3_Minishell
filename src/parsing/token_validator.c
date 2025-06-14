@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_grammar_check.c                              :+:      :+:    :+:   */
+/*   token_validator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/11 15:46:46 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:28:28 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_check_token_grammar(t_token *token_list)
+int	ft_token_validator(t_token *token_list)
 {
 	t_token	*prev;
 	size_t	token_len;
