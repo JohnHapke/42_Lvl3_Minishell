@@ -6,22 +6,24 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/14 15:34:22 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/16 16:16:37 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // function programmed by Igor -> implementation in next commit 
-char	*ft_insert_str(char *str, char *insert, size_t where)
+char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
 {
 	char	*ret;
 
-	if (where > (ft_strlen(str) + ft_strlen(str)))
-	ret = ft_calloc(ft_strlen(str) + ft_strlen(insert), sizeof(char));
-	ft_memcpy(ret, str, where);
-	ft_memcpy(&ret[where], insert, ft_strlen(insert));
-	ft_memcpy(&ret[ft_strlen(insert) + where], &str[where], ft_strlen(&str[where]));
+	if (insert == NULL)
+		return (ft_strdup(str));
+	ret = ft_calloc(ft_strlen(str) + ft_strlen(insert) - varkey_len + 1, sizeof(char));
+	ft_memcpy(ret, str, *i - 1);
+	ft_memcpy(&ret[*i], insert, ft_strlen(insert));
+	ft_memcpy(&ret[ft_strlen(insert)+ *i], &str[*i + varkey_len], ft_strlen(&str[*i + varkey_len]));
+	*i += ft_strlen(str) - ft_strlen(ret);
 	return (ret);
 }
 
@@ -36,42 +38,98 @@ char	*ft_insert_str(char *str, char *insert, size_t where)
 4. delete quotes
 */
 
-bool	ft_variable_check(char *value)
-{
-	int	i;
-
-	i = -1;
-	if (ft_strchr(value, '=') == NULL || ft_isdigit(value[0]))
-		return (false);
-	while (value[i++] != '=')
-	{
-		if (ft_isalnum(value[i]) && value[i] != '_')
-			return (false);
-	}
-	i++;
-	//rest is ignored
-}
-
 void	ft_extract_variables(t_shell *shell, t_token *token_list)
 {
+	int		i;
+	t_token	*token_temp;
+
+	i = 0;
 	while (token_list->next != NULL)
 	{
-		if (token_list->type == TOKEN_WORD && ft_variable_check(token_list->value))
+		if (token_list->next->type == TOKEN_WORD
+			&& ft_variable_check(token_list->next->value))
 		{
-			//add variable to env
-			//remove token from token_list
-			//ft_env_node_add_back(&shell->env_list, ft_env_new_node(line[0], line[1]));
+			while (token_list->next->value != "=")
+				i++;
+			ft_env_add_back(&shell->env_list,
+				ft_env_new_node(ft_substr(token_list->next->value, 0, i),
+					ft_get_unquoted_str(token_list->next->value)));
+			token_temp = token_list->next;
+			token_list->next = token_list->next->next;
+			free(token_temp->value);
+			free(token_temp);
 		}
 		token_list = token_list->next;
 	}
 }
 
+char	*ft_get_var_key(char *str)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+			break ;
+		i++;
+	}
+	key = malloc((i + 1) * sizeof(char));
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+			break ;
+		key[i] == str[i];
+		i++;
+	}
+	key[i] = '\0';
+	return (key);
+}
+
+char	*ft_compare_var_keys(char *var_key, t_env *env_list)
+{
+	while (env_list)
+	{
+		if (ft_strncmp(var_key, env_list->key) == 0)
+			return (env_list->value);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
 void	ft_expand_variables(t_shell *shell, t_token *token_list)
-{}
+{
+	int		i;
+	char	*temp_str;
+	char	*var_key;
+	char	*var_value;
 
-void	ft_remove_quotes()
-{}
+	while (token_list)
+	{
+		i = 0;
+		while (token_list->value[i] != '\0')
+		{
+			if (token_list->value[i] == '$')
+			{
+				var_key = ft_get_var_key(&token_list->value[i + 1]);
+				var_value = ft_compare_var_keys(var_key, shell->env_list);
+				temp_str = ft_insert_str(token_list->value, var_value, ft_strlen(var_key) + 1, &i);
+				free(var_key);
+				free(token_list->value);
+				token_list->value = temp_str;
+			}
+			i++;
+		}
+		token_list = token_list->next;
+	}
+}
 
+void	ft_remove_quotes(t_token *token_list);
+{
+	
+}
 
 void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 {

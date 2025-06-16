@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/14 15:47:57 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/16 14:18:36 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ static char	*ft_get_token_value(char *line, int *i,
 	char	*token_value;
 
 	break_char = ' ';
-	if (line[*i] == '"' || line[*i] == '\'')
-		break_char = line[*i];
 	token_len = *i;
 	while (line[token_len] != '\0')
 	{
+		if (line[*i] == '"' || line[*i] == '\'')
+			break_char = line[*i];
 		token_len++;
 		if (line[token_len] == break_char)
 			break ;
