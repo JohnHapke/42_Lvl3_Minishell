@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/16 16:16:37 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 10:10:49 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_extract_variables(t_shell *shell, t_token *token_list)
 					ft_get_unquoted_str(token_list->next->value)));
 			token_temp = token_list->next;
 			token_list->next = token_list->next->next;
-			free(token_temp->value);
 			free(token_temp);
 		}
 		token_list = token_list->next;
@@ -88,52 +87,41 @@ char	*ft_get_var_key(char *str)
 	return (key);
 }
 
-char	*ft_compare_var_keys(char *var_key, t_env *env_list)
-{
-	while (env_list)
-	{
-		if (ft_strncmp(var_key, env_list->key) == 0)
-			return (env_list->value);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-void	ft_expand_variables(t_shell *shell, t_token *token_list)
+void	ft_expand_variables(t_shell *shell, char **value)
 {
 	int		i;
 	char	*temp_str;
 	char	*var_key;
 	char	*var_value;
+	bool	is_in_quote;
 
-	while (token_list)
+	i = 0;
+	is_in_quote = false;
+	while (*value[i] != '\0')
 	{
-		i = 0;
-		while (token_list->value[i] != '\0')
+		if (*value[i] == '\'')
+			is_in_quote = !is_in_quote;
+		if (*value[i] == '$' && is_in_quote == false)
 		{
-			if (token_list->value[i] == '$')
-			{
-				var_key = ft_get_var_key(&token_list->value[i + 1]);
-				var_value = ft_compare_var_keys(var_key, shell->env_list);
-				temp_str = ft_insert_str(token_list->value, var_value, ft_strlen(var_key) + 1, &i);
-				free(var_key);
-				free(token_list->value);
-				token_list->value = temp_str;
-			}
-			i++;
+			var_key = ft_get_var_key(&(*value)[i + 1]);
+			var_value = ft_compare_var_keys(var_key, shell->env_list);
+			temp_str = ft_insert_str(*value, var_value,
+					ft_strlen(var_key) + 1, &i);
+			free(var_key);
+			free(*value);
+			*value = temp_str;
 		}
-		token_list = token_list->next;
+		i++;
 	}
-}
-
-void	ft_remove_quotes(t_token *token_list);
-{
-	
 }
 
 void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 {
 	ft_extract_variables(shell, token_list);
-	ft_expand_variables(shell, token_list);
-	ft_remove_quotes(token_list);
+	while (token_list)
+	{
+		ft_expand_variables(shell, &token_list->value);
+		token_list->value = ft_get_unquoted_str(token_list->value);
+		token_list = token_list->next;
+	}
 }

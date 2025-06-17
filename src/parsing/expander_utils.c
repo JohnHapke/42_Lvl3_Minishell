@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/16 15:40:45 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:49:40 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,17 @@ char	*ft_get_unquoted_str(char *str)
 		str++;
 	}
 	unquoted[i] = '\0';
+	free(str);
 	return (unquoted);
+}
+
+char	*ft_compare_var_keys(char *var_key, t_env *env_list)
+{
+	while (env_list)
+	{
+		if (ft_strncmp(var_key, env_list->key, ft_strlen(var_key + 1)) == 0)
+			return (env_list->value);
+		env_list = env_list->next;
+	}
+	return (NULL);
 }

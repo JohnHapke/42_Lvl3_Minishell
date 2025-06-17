@@ -6,13 +6,13 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/14 15:32:50 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 10:51:46 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_shell_loop(t_shell *shell)
+void	ft_shell_loop(t_shell *shell)
 {
 	char	*line;
 
@@ -21,7 +21,7 @@ static void	ft_shell_loop(t_shell *shell)
 		line = readline("Minishell$ ");
 		if (line == NULL)
 			break ;
-		ft_token_handler(line);
+		ft_token_handler(shell, line);
 		// TODO
 		add_history(line);
 	}

@@ -56,19 +56,21 @@ NAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	ar rcs $(NAME) $(OFILES) 
+	@ar rcs $(NAME) $(OFILES) 
+	@echo "Libft compiled"
 
 bonus: $(OFILES) $(OBJBONUS)
-	ar rcs $(NAME) $(OFILES) $(OBJBONUS)
+	@ar rcs $(NAME) $(OFILES) $(OBJBONUS)
 
 %.o: %.c
-	cc $(CFLAGS) -c -o $@ $<
+	@cc $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OFILES)
+	@rm -f $(OFILES)
 
 fclean: clean
-	rm -f $(NAME) $(OBJBONUS)
+	# @make -C libft fclean
+	@rm -f $(NAME) $(OBJBONUS)
 
 re: fclean $(NAME)
 

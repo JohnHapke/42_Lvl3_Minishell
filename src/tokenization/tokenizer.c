@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/16 14:18:36 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 10:24:27 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ static int	ft_get_token_type(char c)
 static char	*ft_get_token_value(char *line, int *i,
 				t_token_type token_type)
 {
+	bool	is_in_quote;
 	int		token_len;
-	char	break_char;
 	char	*token_value;
 
-	break_char = ' ';
 	token_len = *i;
+	is_in_quote = false;
 	while (line[token_len] != '\0')
 	{
 		if (line[*i] == '"' || line[*i] == '\'')
-			break_char = line[*i];
+			is_in_quote = !is_in_quote;
 		token_len++;
-		if (line[token_len] == break_char)
-			break ;
-		if (break_char == ' ' && ft_get_token_type(line[token_len]) != token_type)
+		if ((line[token_len] == ' '
+				|| ft_get_token_type(line[token_len]) != token_type)
+			&& is_in_quote == false)
 			break ;
 	}
 	token_value = ft_substr(line, *i, token_len - *i);
@@ -48,10 +48,10 @@ static char	*ft_get_token_value(char *line, int *i,
 	return (token_value);
 }
 
-int	ft_token_handler(char *line)
+int	ft_token_handler(t_shell *shell, char *line)
 {
 	int				i;
-	t_token_type	tok_type;
+	t_token_type	token_type;
 	t_token			*token_list;
 
 	i = 0;
@@ -62,10 +62,10 @@ int	ft_token_handler(char *line)
 			i++;
 		else
 		{
-			tok_type = ft_get_token_type(line[i]);
+			token_type = ft_get_token_type(line[i]);
 			ft_token_add_back(&token_list, ft_token_new_node
-				(ft_get_token_value(line, &i, tok_type), tok_type));
+				(ft_get_token_value(line, &i, token_type), token_type));
 		}
 	}
-	ft_parsing_handler(token_list);
+	ft_parsing_handler(shell, token_list);
 }

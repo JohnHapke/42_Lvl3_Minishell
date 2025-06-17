@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/14 15:57:23 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 11:03:30 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ typedef struct s_shell
 static void		ft_env_add_back(t_env **lst, t_env *new_node);
 static t_env	*ft_env_new_node(char *key, char *value);
 void			ft_shell_init(t_shell *shell, char **envp);
-static void		ft_shell_loop(t_shell *shell);
+void		ft_shell_loop(t_shell *shell);
 
 // Tokenization
-int			ft_token_handler(char *line);
+int			ft_token_handler(t_shell *shell, char *line);
 static int	ft_get_token_type(char c);
 static char	*ft_get_token_value(char *line, int *i,
 				t_token_type token_type);
@@ -112,8 +112,16 @@ void		ft_token_add_back(t_token **token_list, t_token *new_node);
 // Parsing
 
 int			ft_token_validator(t_token *token_list);
-// expansion still in implementation -> no functions in header so far
-void		ft_parsing_handler(t_token *token_list);
+bool	ft_variable_check(char *value);
+int	ft_count_char(char *str);
+char	*ft_get_unquoted_str(char *str);
+char	*ft_compare_var_keys(char *var_key, t_env *env_list);
+char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
+void	ft_extract_variables(t_shell *shell, t_token *token_list);
+char	*ft_get_var_key(char *str);
+void	ft_expand_variables(t_shell *shell, char **value);
+void	ft_expansion_handler(t_shell *shell, t_token *token_list);
+void		ft_parsing_handler(t_shell *shell, t_token *token_list);
 t_redir_type	ft_get_redir_type(char	*value);
 void	ft_command_handler(t_token *token_list, t_command **command);
 int	ft_count_arguments(t_token *token_list);
@@ -132,6 +140,8 @@ void	ft_redir_add_back(t_redir **list, t_redir *new_node);
 /*	tbd	*/
 
 // Cleanup
+void	ft_error_handler(void);
+
 /*	tbd	*/
 
 

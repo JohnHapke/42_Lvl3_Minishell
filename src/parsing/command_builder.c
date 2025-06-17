@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_init.c                                     :+:      :+:    :+:   */
+/*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/12 15:59:21 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 10:51:00 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ t_redir_type	ft_get_redir_type(char	*value)
 		return (REDIR_HEREDOC);
 	else if (ft_strncmp(">", value, ft_strlen(value)) == 0)
 		return (REDIR_OUT);
-	else if (ft_strncmp(">>", value, ft_strlen(value)) == 0)
-		return (REDIR_APPEND);
 	else
-		ft_error_handler();
+		return (REDIR_APPEND);
 }
 
 void	ft_fill_command_node(t_token **token_list, t_command *command)
@@ -66,7 +64,7 @@ void	ft_command_handler(t_token *token_list, t_command **command)
 		{
 			new_node = malloc(sizeof(t_command));
 			if (!new_node)
-				return (NULL);
+				ft_error_handler();
 			ft_fill_command_node(&token_list, new_node);
 			ft_command_add_back(command, new_node);
 		}
