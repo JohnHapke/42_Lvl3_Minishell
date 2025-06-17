@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/17 10:10:49 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 11:33:25 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
 {
 	char	*ret;
 
+	printf("DEBUG_INSERT_STRING!!!\n");
 	if (insert == NULL)
 		return (ft_strdup(str));
 	ret = ft_calloc(ft_strlen(str) + ft_strlen(insert) - varkey_len + 1, sizeof(char));
@@ -120,6 +121,7 @@ void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 	ft_extract_variables(shell, token_list);
 	while (token_list)
 	{
+		printf("%s\n", token_list->value);
 		ft_expand_variables(shell, &token_list->value);
 		token_list->value = ft_get_unquoted_str(token_list->value);
 		token_list = token_list->next;

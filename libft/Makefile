@@ -69,7 +69,6 @@ clean:
 	@rm -f $(OFILES)
 
 fclean: clean
-	# @make -C libft fclean
 	@rm -f $(NAME) $(OBJBONUS)
 
 re: fclean $(NAME)

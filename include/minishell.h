@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/17 11:03:30 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 11:09:13 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ typedef struct s_shell
 
 /*	functions	*/
 // Shell
-static void		ft_env_add_back(t_env **lst, t_env *new_node);
-static t_env	*ft_env_new_node(char *key, char *value);
+void		ft_env_add_back(t_env **lst, t_env *new_node);
+t_env	*ft_env_new_node(char *key, char *value);
 void			ft_shell_init(t_shell *shell, char **envp);
 void		ft_shell_loop(t_shell *shell);
 

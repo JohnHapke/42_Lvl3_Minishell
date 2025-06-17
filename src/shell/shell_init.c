@@ -6,13 +6,13 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/14 15:54:43 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/17 11:09:35 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_env	*ft_env_new_node(char *key, char *value)
+t_env	*ft_env_new_node(char *key, char *value)
 {
 	t_env	*new;
 
@@ -25,7 +25,7 @@ static t_env	*ft_env_new_node(char *key, char *value)
 	return (new);
 }
 
-static void	ft_env_add_back(t_env **lst, t_env *new_node)
+void	ft_env_add_back(t_env **lst, t_env *new_node)
 {
 	if (!(*lst))
 		*lst = new_node;
@@ -39,7 +39,6 @@ static void	ft_env_add_back(t_env **lst, t_env *new_node)
 
 void	ft_shell_init(t_shell *shell, char **envp)
 {
-
 	int		i;
 	char	**line;
 
