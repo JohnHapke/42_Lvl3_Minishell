@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_validator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/14 15:28:28 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 15:28:59 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	ft_token_validator(t_token *token_list)
 {
-	t_token	*prev;
 	size_t	token_len;
 
-	prev = NULL;
 	while (token_list->next != NULL)
 	{
 		token_len = ft_strlen(token_list->value);
@@ -30,9 +28,8 @@ int	ft_token_validator(t_token *token_list)
 		if (token_list->type == TOKEN_PIPE && (ft_strncmp(token_list->value,
 					"|", ft_strlen(token_list->value) != 0)
 				|| (token_list->next->type != TOKEN_WORD
-					&& (prev == NULL || prev->type != TOKEN_WORD))))
+					&& (token_list->prev == NULL || token_list->prev->type != TOKEN_WORD))))
 			return (1);
-		prev = token_list;
 		token_list = token_list->next;
 	}
 	if (token_list->type != TOKEN_WORD)

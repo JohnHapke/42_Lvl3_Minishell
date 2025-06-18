@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 14:42:36 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:43:59 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
 {
 	char	*ret;
 
-	printf("DEBUG_INSERT_STRING!!!\n");
 	if (insert == NULL)
 		return (ft_strdup(str));
 	ret = ft_calloc(ft_strlen(str) + ft_strlen(insert) - varkey_len + 1, sizeof(char));
@@ -39,27 +38,46 @@ char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
 4. delete quotes
 */
 
-void	ft_extract_variables(t_shell *shell, t_token *token_list)
+t_token	*ft_remove_current_token(t_token **current)
+{
+	t_token	*temp;
+
+	temp = (*current)->next;
+	if ((*current)->next == NULL && (*current)->prev == NULL)
+	{
+		*current = NULL;
+		return (NULL);
+	}
+	if ((*current)->next != NULL)
+		(*current)->next->prev = (*current)->prev;
+	if ((*current)->prev != NULL)
+		(*current)->prev->next = (*current)->next;
+	free((*current)->value);
+	free(*current);
+	return (temp);
+}
+
+void	ft_extract_variables(t_shell *shell, t_token **token_list)
 {
 	int		i;
-	t_token	*token_temp;
+	t_token	*current;
+	char	*new_key;
+	char	*new_value;
 
 	i = 0;
-	while (token_list->next != NULL)
+	current = *token_list;
+	while (current != NULL)
 	{
-		if (token_list->next->type == TOKEN_WORD
-			&& ft_variable_check(token_list->next->value))
+		if (current->type == TOKEN_WORD && ft_variable_check(current->value))
 		{
-			while (token_list->next->value[i] != '=')
-				i++;
-			ft_env_add_back(&shell->env_list,
-				ft_env_new_node(ft_substr(token_list->next->value, 0, i),
-					ft_get_unquoted_str(token_list->next->value)));
-			token_temp = token_list->next;
-			token_list->next = token_list->next->next;
-			free(token_temp);
+			new_key = ft_substr(current->value, 0, (size_t)(ft_strchr(current->value, '=') - current->value));
+			new_value = ft_substr(ft_strchr(current->value, '='), 1, ft_strlen(ft_strchr(current->value, '=')));
+			ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, ft_get_unquoted_str(new_value)));
+			free(new_value);
+			current = ft_remove_current_token(&current);
 		}
-		token_list = token_list->next;
+		else
+			current = current->next;
 	}
 }
 
@@ -98,11 +116,11 @@ void	ft_expand_variables(t_shell *shell, char **value)
 
 	i = 0;
 	is_in_quote = false;
-	while (*value[i] != '\0')
+	while ((*value)[i] != '\0')
 	{
-		if (*value[i] == '\'')
+		if ((*value)[i] == '\'')
 			is_in_quote = !is_in_quote;
-		if (*value[i] == '$' && is_in_quote == false)
+		if ((*value)[i] == '$' && is_in_quote == false)
 		{
 			var_key = ft_get_var_key(&(*value)[i + 1]);
 			var_value = ft_compare_var_keys(var_key, shell->env_list);
@@ -113,19 +131,15 @@ void	ft_expand_variables(t_shell *shell, char **value)
 			*value = temp_str;
 		}
 		i++;
-		printf("%i\n", i);
-		printf("end of loop\n");
 	}
 }
 
 void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 {
-	ft_extract_variables(shell, token_list);
+	ft_extract_variables(shell, &token_list);
 	while (token_list)
 	{
-		printf("%s\n", token_list->value);
 		ft_expand_variables(shell, &token_list->value);
-		printf("5\n");
 		token_list->value = ft_get_unquoted_str(token_list->value);
 		token_list = token_list->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 14:28:43 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:39:38 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@ bool	ft_variable_check(char *value)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (ft_strchr(value, '=') == NULL || ft_isdigit(value[0]))
 		return (false);
-	while (value[i++] != '=')
+	while (value[i] != '=')
 	{
-		if (ft_isalnum(value[i]) && value[i] != '_')
+		if (!ft_isalnum(value[i]) && value[i] != '_')
 			return (false);
+		i++;
 	}
 	return (true);
 }
 
-int	ft_count_char(char *str)
+int	ft_count_char(char *str) //does not currently distinguish between quote types
 {
 	int	i;
 	int	j;
@@ -46,7 +47,7 @@ int	ft_count_char(char *str)
 	return (j);
 }
 
-char	*ft_get_unquoted_str(char *str)
+char	*ft_get_unquoted_str(char *str) //does not currently distinguish between quote types
 {
 	char	*unquoted;
 	int		i;
@@ -65,7 +66,6 @@ char	*ft_get_unquoted_str(char *str)
 		str++;
 	}
 	unquoted[i] = '\0';
-	free(str);
 	return (unquoted);
 }
 

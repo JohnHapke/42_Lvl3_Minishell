@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 14:24:07 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:21:25 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef struct s_token
 {
 	t_token_type type;    // Token type
 	char *value;          // Token value (string)
-	struct s_token *next; // Next token in the list
+	struct s_token	*next; // Next token in the list
+	struct s_token	*prev;
 }			t_token;
 
 typedef struct s_redir
@@ -117,7 +118,7 @@ int			ft_count_char(char *str);
 char		*ft_get_unquoted_str(char *str);
 char		*ft_compare_var_keys(char *var_key, t_env *env_list);
 char		*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
-void		ft_extract_variables(t_shell *shell, t_token *token_list);
+void		ft_extract_variables(t_shell *shell, t_token **token_list);
 char		*ft_get_var_key(char *str);
 void		ft_expand_variables(t_shell *shell, char **value);
 void		ft_expansion_handler(t_shell *shell, t_token *token_list);

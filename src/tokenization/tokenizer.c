@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/18 14:17:17 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:47:58 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,24 @@ static int	ft_get_token_type(char c)
 static char	*ft_get_token_value(char *line, int *i,
 				t_token_type token_type)
 {
-	bool	is_in_quote;
+	bool	in_single_quote;
+	bool	in_double_quote;
 	int		token_len;
 	char	*token_value;
 
 	token_len = *i;
-	is_in_quote = false;
+	in_single_quote = false;
+	in_double_quote = false;
 	while (line[token_len] != '\0')
 	{
-		if (line[*i] == '"' || line[*i] == '\'')
-			is_in_quote = !is_in_quote;
-		token_len++;
-		if ((line[token_len] == ' '
-				|| ft_get_token_type(line[token_len]) != token_type)
-			&& is_in_quote == false)
+		if (line[token_len] == '\"' && in_single_quote == false)
+			in_double_quote = !in_double_quote;
+		if (line[token_len] == '\'' && in_double_quote == false)
+			in_single_quote = !in_single_quote;
+		if ((!in_single_quote && !in_double_quote)
+			&& (line[token_len] == ' ' || ft_get_token_type(line[token_len]) != token_type))
 			break ;
+		token_len++;
 	}
 	token_value = ft_substr(line, *i, token_len - *i);
 	*i = token_len;

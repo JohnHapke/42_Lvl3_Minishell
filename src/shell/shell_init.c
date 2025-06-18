@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/17 11:09:35 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:37:01 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,32 @@ t_env	*ft_env_new_node(char *key, char *value)
 
 void	ft_env_add_back(t_env **lst, t_env *new_node)
 {
+	t_env	*current;
+
+	current = *lst;
 	if (!(*lst))
 		*lst = new_node;
 	else
 	{
-		while ((*lst)->next != NULL)
-			*lst = (*lst)->next;
-		(*lst)->next = new_node;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_node;
 	}
 }
 
 void	ft_shell_init(t_shell *shell, char **envp)
 {
 	int		i;
-	char	**line;
+	char	*new_key;
+	char	*new_value;
 
 	i = 0;
 	shell->env_list = NULL;
 	while (envp[i] != NULL)
 	{
-		line = ft_split(envp[i], '=');
-		if (!line)
-			ft_error_handler();
-		ft_env_add_back(&shell->env_list, ft_env_new_node(line[0], line[1]));
-		free(line);
+		new_key = ft_substr(envp[i], 0, (size_t)(ft_strchr(envp[i], '=') - envp[i]));
+		new_value = ft_substr(ft_strchr(envp[i], '='), 1, ft_strlen(ft_strchr(envp[i], '=')));
+		ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, new_value));
 		i++;
 	}
 	shell->env_array = envp;
