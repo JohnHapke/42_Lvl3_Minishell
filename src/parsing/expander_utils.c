@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/17 09:49:40 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:28:43 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	ft_count_char(char *str)
 	int	j;
 
 	i = 0;
-	while (str[i] != '=')
+	/*while (str[i] != '=')
 		i++;
-	i++;
+	i++;*/
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != "\"")
+		if (str[i] != '\"')
 			j++;
 		i++;
 	}
@@ -54,13 +54,13 @@ char	*ft_get_unquoted_str(char *str)
 	unquoted = malloc((ft_count_char(str) + 1) * sizeof(char));
 	if (!unquoted)
 		return (NULL);
-	while (*str != "=")
+	/*while (*str != '=')
 		str++;
-	str++;
+	str++;*/
 	i = -1;
 	while ((*str))
 	{
-		if (*str != "\"")
+		if (*str != '\"')
 			unquoted[++i] = *str;
 		str++;
 	}

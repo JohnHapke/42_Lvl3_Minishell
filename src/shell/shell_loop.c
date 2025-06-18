@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/17 10:51:46 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:27:39 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	ft_shell_loop(t_shell *shell)
 		ft_token_handler(shell, line);
 		// TODO
 		add_history(line);
+		free(line);
 	}
 }

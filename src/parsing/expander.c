@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/17 11:33:25 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:42:36 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_extract_variables(t_shell *shell, t_token *token_list)
 		if (token_list->next->type == TOKEN_WORD
 			&& ft_variable_check(token_list->next->value))
 		{
-			while (token_list->next->value != "=")
+			while (token_list->next->value[i] != '=')
 				i++;
 			ft_env_add_back(&shell->env_list,
 				ft_env_new_node(ft_substr(token_list->next->value, 0, i),
@@ -81,7 +81,7 @@ char	*ft_get_var_key(char *str)
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
 			break ;
-		key[i] == str[i];
+		key[i] = str[i];
 		i++;
 	}
 	key[i] = '\0';
@@ -113,6 +113,8 @@ void	ft_expand_variables(t_shell *shell, char **value)
 			*value = temp_str;
 		}
 		i++;
+		printf("%i\n", i);
+		printf("end of loop\n");
 	}
 }
 
@@ -123,6 +125,7 @@ void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 	{
 		printf("%s\n", token_list->value);
 		ft_expand_variables(shell, &token_list->value);
+		printf("5\n");
 		token_list->value = ft_get_unquoted_str(token_list->value);
 		token_list = token_list->next;
 	}

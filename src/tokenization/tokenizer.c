@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/17 10:24:27 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:17:17 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*ft_get_token_value(char *line, int *i,
 	return (token_value);
 }
 
-int	ft_token_handler(t_shell *shell, char *line)
+void	ft_token_handler(t_shell *shell, char *line)
 {
 	int				i;
 	t_token_type	token_type;

@@ -17,10 +17,7 @@ CC = @cc $(CFLAGS)
 
 all: $(NAME)
 
-speak:
-	@echo $(SRC)
-
-$(NAME): speak $(OBJ_DIR) $(OBJ) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
 	@echo "$(GRN)Done!$(DEF)"
 	$(CC) $(FLAGS) -lreadline $(OBJ) $(LIBFT) -o $(NAME)
 
@@ -28,7 +25,7 @@ $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
 $(LIBFT):
-	@echo "$(YLW)Compiling Minishell...$(DEF)"
+	@echo "$(YLW)Compiling Libft...$(DEF)"
 	@make -C libft
 
 %.o: %.c
@@ -37,7 +34,7 @@ $(LIBFT):
 
 clean:
 	@echo "$(GRN)Removing object files...$(DEF)"
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
 	@make -C libft fclean
