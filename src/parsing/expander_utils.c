@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 17:39:38 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:55:13 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,42 +30,56 @@ bool	ft_variable_check(char *value)
 
 int	ft_count_char(char *str) //does not currently distinguish between quote types
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	quote_type;
 
 	i = 0;
-	/*while (str[i] != '=')
-		i++;
-	i++;*/
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\"')
-			j++;
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			quote_type = str[i];
+			i++;
+			while (str[i] != quote_type && str[i] != '\0')
+			{
+				i++;
+				j++;
+			}
+			j--;
+		}
+		j++;
 		i++;
 	}
 	return (j);
 }
 
-char	*ft_get_unquoted_str(char *str) //does not currently distinguish between quote types
+char	*ft_get_unquoted_str(char *str)
 {
 	char	*unquoted;
 	int		i;
+	char	quote_type;
 
-	unquoted = malloc((ft_count_char(str) + 1) * sizeof(char));
+	unquoted = malloc((1) * sizeof(char));
 	if (!unquoted)
 		return (NULL);
-	/*while (*str != '=')
-		str++;
-	str++;*/
 	i = -1;
 	while ((*str))
 	{
-		if (*str != '\"')
-			unquoted[++i] = *str;
+		if (*str == '\"' || *str == '\'')
+		{
+			quote_type = *str;
+			str++;
+			while (*str != quote_type && *str != '\0')
+				unquoted[++i] = *(str++);
+			str++;
+		}
+		unquoted[++i] = *str;
 		str++;
 	}
-	unquoted[i] = '\0';
+	unquoted[i + 1] = '\0';
+	printf("macarrones.: %s\n", unquoted);
 	return (unquoted);
 }
 
