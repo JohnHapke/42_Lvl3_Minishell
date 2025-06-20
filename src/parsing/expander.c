@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 17:43:59 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:31:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,27 @@ char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
 4. delete quotes
 */
 
-t_token	*ft_remove_current_token(t_token **current)
+void	ft_remove_current_token(t_token **current)
 {
 	t_token	*temp;
 
+	if (!current || !*current)
+		return ;
 	temp = (*current)->next;
-	if ((*current)->next == NULL && (*current)->prev == NULL)
+	if ((*current)->next != NULL && (*current)->prev != NULL)
 	{
-		*current = NULL;
-		return (NULL);
+		if ((*current)->next == NULL)
+			(*current)->prev->next = NULL;
+		else
+			(*current)->next->prev = (*current)->prev;
+		if ((*current)->prev == NULL)
+			(*current)->next->prev = NULL;
+		else
+			(*current)->prev->next = (*current)->next;
 	}
-	if ((*current)->next != NULL)
-		(*current)->next->prev = (*current)->prev;
-	if ((*current)->prev != NULL)
-		(*current)->prev->next = (*current)->next;
 	free((*current)->value);
 	free(*current);
-	return (temp);
+	*current = temp;
 }
 
 void	ft_extract_variables(t_shell *shell, t_token **token_list)
@@ -74,7 +78,7 @@ void	ft_extract_variables(t_shell *shell, t_token **token_list)
 			new_value = ft_substr(ft_strchr(current->value, '='), 1, ft_strlen(ft_strchr(current->value, '=')));
 			ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, ft_get_unquoted_str(new_value)));
 			free(new_value);
-			current = ft_remove_current_token(&current);
+			ft_remove_current_token(&current);
 		}
 		else
 			current = current->next;
@@ -136,11 +140,15 @@ void	ft_expand_variables(t_shell *shell, char **value)
 
 void	ft_expansion_handler(t_shell *shell, t_token *token_list)
 {
+	char	*temp;
+
 	ft_extract_variables(shell, &token_list);
 	while (token_list)
 	{
 		ft_expand_variables(shell, &token_list->value);
+		temp = token_list->value;
 		token_list->value = ft_get_unquoted_str(token_list->value);
+		free(temp);
 		token_list = token_list->next;
 	}
 }

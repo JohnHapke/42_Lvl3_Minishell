@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/19 15:55:13 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:32:12 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_variable_check(char *value)
 	return (true);
 }
 
-int	ft_count_char(char *str) //does not currently distinguish between quote types
+int	ft_count_char(char *str)
 {
 	int		i;
 	int		j;
@@ -47,10 +47,13 @@ int	ft_count_char(char *str) //does not currently distinguish between quote type
 				i++;
 				j++;
 			}
-			j--;
+			i++;
 		}
-		j++;
-		i++;
+		else
+		{
+			j++;
+			i++;
+		}
 	}
 	return (j);
 }
@@ -61,7 +64,7 @@ char	*ft_get_unquoted_str(char *str)
 	int		i;
 	char	quote_type;
 
-	unquoted = malloc((1) * sizeof(char));
+	unquoted = malloc((ft_count_char(str) + 1) * sizeof(char));
 	if (!unquoted)
 		return (NULL);
 	i = -1;
@@ -75,11 +78,10 @@ char	*ft_get_unquoted_str(char *str)
 				unquoted[++i] = *(str++);
 			str++;
 		}
-		unquoted[++i] = *str;
-		str++;
+		else
+			unquoted[++i] = *(str++);
 	}
 	unquoted[i + 1] = '\0';
-	printf("macarrones.: %s\n", unquoted);
 	return (unquoted);
 }
 
