@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:37:01 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:55:20 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,12 @@ void	ft_shell_init(t_shell *shell, char **envp)
 		ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, new_value));
 		i++;
 	}
-	shell->env_array = envp;
+	shell->env_array = malloc((i + 1)* sizeof(char));
+	i = 0;
+	while (envp[i])
+	{
+		shell->env_array[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	shell->env_array[i] = NULL;
 }

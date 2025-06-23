@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/18 15:21:25 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:46:27 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env *env_list;  // Linked list of environment variables (for builtins)
+	t_env *user_env_list;
 	char **env_array; // Array format for execve (external commands)
 	int exit_status;  // Last exit code ($?)
 }			t_shell;
@@ -121,7 +122,7 @@ char		*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
 void		ft_extract_variables(t_shell *shell, t_token **token_list);
 char		*ft_get_var_key(char *str);
 void		ft_expand_variables(t_shell *shell, char **value);
-void		ft_expansion_handler(t_shell *shell, t_token *token_list);
+void		ft_expansion_handler(t_shell *shell, t_token **token_list);
 void		ft_parsing_handler(t_shell *shell, t_token *token_list);
 t_redir_type	ft_get_redir_type(char	*value);
 void		ft_command_handler(t_token *token_list, t_command **command);

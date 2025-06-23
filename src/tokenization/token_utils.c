@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:55:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/18 15:24:16 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:31:42 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	ft_token_add_back(t_token **token_list, t_token *new_node)
 		*token_list = new_node;
 	else
 	{
-		new_node->prev = current;
 		current = *token_list;
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_node;
+		new_node->prev = current;
 	}
 }

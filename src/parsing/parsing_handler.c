@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/20 16:09:31 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:50:06 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
 
 	i = 0;
 	current = shell->env_list;
-	/*printf("Environment:\n");
+	printf("Environment:\n");
 	while (current)
 	{
 		printf("	Key:	%s\n", current->key);
 		printf("	Value:	%s\n", current->value);
 		current = current->next;
-	}*/
+	}
 	printf("Token list:\n");
 	while (token_list)
 	{
@@ -63,7 +63,7 @@ void	ft_parsing_handler(t_shell *shell, t_token *token_list)
 	command = NULL;
 	if (ft_token_validator(token_list) == 1)
 		ft_error_handler();
-	ft_expansion_handler(shell, token_list);
+	ft_expansion_handler(shell, &token_list);
 	ft_command_handler(token_list, &command);
 	debug_list_print(shell, token_list, command);
 }
