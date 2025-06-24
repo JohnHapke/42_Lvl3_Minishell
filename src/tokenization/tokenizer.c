@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:47:58 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:21:38 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static char	*ft_get_token_value(char *line, int *i,
 		if (line[token_len] == '\'' && in_double_quote == false)
 			in_single_quote = !in_single_quote;
 		if ((!in_single_quote && !in_double_quote)
-			&& (line[token_len] == ' ' || ft_get_token_type(line[token_len]) != token_type))
+			&& (line[token_len] == ' '
+				|| ft_get_token_type(line[token_len]) != token_type))
 			break ;
 		token_len++;
 	}

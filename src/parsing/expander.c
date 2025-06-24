@@ -6,25 +6,11 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/23 17:03:51 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:22:47 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
-{
-	char	*ret;
-
-	if (insert == NULL)
-		return (ft_strdup(str));
-	ret = ft_calloc((ft_strlen(str) + ft_strlen(insert)) - varkey_len, sizeof(char));
-	ft_memcpy(ret, str, *i);
-	ft_memcpy(&ret[*i], insert, ft_strlen(insert));
-	ft_memcpy(&ret[ft_strlen(insert) + *i], &str[*i + varkey_len + 2], ft_strlen(&str[*i + varkey_len]));
-	*i += ft_strlen(str) - ft_strlen(ret);
-	return (ret);
-}
 
 t_token	*ft_remove_current_token(t_token **token_list, t_token *current)
 {
@@ -57,9 +43,12 @@ void	ft_extract_variables(t_shell *shell, t_token **token_list)
 	{
 		if (current->type == TOKEN_WORD && ft_variable_check(current->value))
 		{
-			new_key = ft_substr(current->value, 0, (size_t)(ft_strchr(current->value, '=') - current->value));
-			new_value = ft_substr(ft_strchr(current->value, '='), 1, ft_strlen(ft_strchr(current->value, '=')));
-			ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, ft_get_unquoted_str(new_value)));
+			new_key = ft_substr(current->value, 0,
+					(size_t)(ft_strchr(current->value, '=') - current->value));
+			new_value = ft_substr(ft_strchr(current->value, '='), 1,
+					ft_strlen(ft_strchr(current->value, '=')));
+			ft_env_add_back(&shell->env_list,
+				ft_env_new_node(new_key, ft_get_unquoted_str(new_value)));
 			free(new_value);
 			current = ft_remove_current_token(token_list, current);
 		}

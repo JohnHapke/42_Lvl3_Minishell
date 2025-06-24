@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/23 16:46:27 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:32:01 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,21 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	t_env *env_list;  // Linked list of environment variables (for builtins)
-	t_env *user_env_list;
-	char **env_array; // Array format for execve (external commands)
-	int exit_status;  // Last exit code ($?)
+	t_env *env_list;		// Linked list of environment variables (for builtins)
+	t_env *user_env_list;	// Linked list of user added variables
+	char **env_array;		// Array format for execve (external commands)
+	int exit_status;		// Last exit code ($?)
 }			t_shell;
 
-/*	functions	*/
-// Shell
+//*  functions   *//
+
+//* Shell
 void		ft_env_add_back(t_env **lst, t_env *new_node);
 t_env		*ft_env_new_node(char *key, char *value);
 void		ft_shell_init(t_shell *shell, char **envp);
 void		ft_shell_loop(t_shell *shell);
 
-// Tokenization
+//* Tokenization
 void		ft_token_handler(t_shell *shell, char *line);
 static int	ft_get_token_type(char c);
 static char	*ft_get_token_value(char *line, int *i,
@@ -111,29 +112,38 @@ static char	*ft_get_token_value(char *line, int *i,
 t_token		*ft_token_new_node(char *value, t_token_type type);
 void		ft_token_add_back(t_token **token_list, t_token *new_node);
 
-// Parsing
-
+//* Parsing
 int			ft_token_validator(t_token *token_list);
+void		ft_parsing_handler(t_shell *shell, t_token *token_list);
+
+// Expansion
+void		ft_expand_variables(t_shell *shell, char **value);
+void		ft_expansion_handler(t_shell *shell, t_token **token_list);
+void		ft_extract_variables(t_shell *shell, t_token **token_list);
+char		*ft_get_var_key(char *str);
 bool		ft_variable_check(char *value);
-int			ft_count_char(char *str);
 char		*ft_get_unquoted_str(char *str);
 char		*ft_compare_var_keys(char *var_key, t_env *env_list);
 char		*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
-void		ft_extract_variables(t_shell *shell, t_token **token_list);
-char		*ft_get_var_key(char *str);
-void		ft_expand_variables(t_shell *shell, char **value);
-void		ft_expansion_handler(t_shell *shell, t_token **token_list);
-void		ft_parsing_handler(t_shell *shell, t_token *token_list);
+
+// Commands
 t_redir_type	ft_get_redir_type(char	*value);
-void		ft_command_handler(t_token *token_list, t_command **command);
-int			ft_count_arguments(t_token *token_list);
+void			ft_command_handler(t_token *token_list, t_command **command);
+int				ft_count_arguments(t_token *token_list);
+
+// Command list
 void		ft_fill_command_node(t_token **token_list, t_command *command);
 void		ft_command_add_back(t_command **command, t_command *new_node);
+
+// Redir list
 t_redir		*ft_new_node_redir(char	*file, t_redir_type type);
 void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 
-// Execution
-/*	tbd	*/
+//
+
+
+
+//* Execution
 
 // Builtins
 /*	tbd	*/

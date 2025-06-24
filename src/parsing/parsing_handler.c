@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/23 16:50:06 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:30:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
 		printf("3\n");
 		command = command->next;
 	}
-} /*temporary*/
+} /*temporary debug*/
 
 void	ft_parsing_handler(t_shell *shell, t_token *token_list)
 {

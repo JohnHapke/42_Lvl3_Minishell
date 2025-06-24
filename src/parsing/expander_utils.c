@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/20 14:32:12 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:30:10 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_variable_check(char *value)
 	return (true);
 }
 
-int	ft_count_char(char *str)
+static int	ft_count_unquoted_char(char *str)
 {
 	int		i;
 	int		j;
@@ -42,12 +42,10 @@ int	ft_count_char(char *str)
 		{
 			quote_type = str[i];
 			i++;
-			while (str[i] != quote_type && str[i] != '\0')
-			{
-				i++;
+			while (str[i] != quote_type && str[i++] != '\0')
 				j++;
-			}
-			i++;
+			if (str[i])
+				i++;
 		}
 		else
 		{
@@ -64,7 +62,7 @@ char	*ft_get_unquoted_str(char *str)
 	int		i;
 	char	quote_type;
 
-	unquoted = malloc((ft_count_char(str) + 1) * sizeof(char));
+	unquoted = malloc((ft_count_unquoted_char(str) + 1) * sizeof(char));
 	if (!unquoted)
 		return (NULL);
 	i = -1;
@@ -89,9 +87,26 @@ char	*ft_compare_var_keys(char *var_key, t_env *env_list)
 {
 	while (env_list)
 	{
-		if (ft_strncmp(var_key, env_list->key, ft_strlen(var_key + 1)) == 0)
+		if (ft_strlen(env_list->key) == ft_strlen(var_key)
+			&& (ft_strncmp(var_key, env_list->key, ft_strlen(var_key)) == 0))
 			return (env_list->value);
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+char	*ft_insert_str(char *str, char *insert, int varkey_len, int *i)
+{
+	char	*ret;
+
+	if (insert == NULL)
+		return (ft_strdup(str));
+	ret = ft_calloc((ft_strlen(str) + ft_strlen(insert)) - varkey_len,
+			sizeof(char));
+	ft_memcpy(ret, str, *i);
+	ft_memcpy(&ret[*i], insert, ft_strlen(insert));
+	ft_memcpy(&ret[ft_strlen(insert) + *i], &str[*i + varkey_len + 2],
+		ft_strlen(&str[*i + varkey_len]));
+	*i += ft_strlen(str) - ft_strlen(ret);
+	return (ret);
 }
