@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/24 14:30:34 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:42:32 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ void	ft_parsing_handler(t_shell *shell, t_token *token_list)
 	ft_expansion_handler(shell, &token_list);
 	ft_command_handler(token_list, &command);
 	debug_list_print(shell, token_list, command);
+	ft_execution_handler(command, shell);
 }

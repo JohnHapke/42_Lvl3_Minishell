@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 14:32:01 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:04:01 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,14 @@ void		ft_command_add_back(t_command **command, t_command *new_node);
 t_redir		*ft_new_node_redir(char	*file, t_redir_type type);
 void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 
-//
+// Execution
+void	ft_execution_handler(t_command *command, t_shell *shell);
+void	ft_input_handler(t_redir *redir);
+void	ft_output_handler(t_redir *redir);
+void	ft_process(int fds[2], char **args, t_shell *shell);
+void	ft_execution(char **args, char **env);
+void	ft_free(char **path);
 
-
-
-//* Execution
 
 // Builtins
 /*	tbd	*/

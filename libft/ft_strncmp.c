@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:03:57 by iherman-          #+#    #+#             */
-/*   Updated: 2024/12/16 12:02:44 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:20:25 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,4 @@ int	ft_strncmp(const char *str1, const char *str2, size_t len)
 	}
 	return (0);
 }
+
