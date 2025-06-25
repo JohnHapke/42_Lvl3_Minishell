@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/24 17:15:17 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/25 15:24:20 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,11 @@ void	ft_shell_init(t_shell *shell, char **envp)
 		ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, new_value));
 		i++;
 	}
-	shell->env_array = malloc((i + 1) * sizeof(char));
+	shell->env_array = malloc((i + 1) * sizeof(char *));
 	i = 0;
 	while (envp[i])
 	{
 		shell->env_array[i] = ft_strdup(envp[i]);
-		printf("%s\n", shell->env_array[i]);
 		i++;
 	}
 	shell->env_array[i] = NULL;

@@ -3,40 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   input_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:42:15 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 17:09:30 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/25 17:00:28 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../get_next_line/get_next_line.h"
 
-static void	ft_input_redirection(char *file, int *fd, t_redir_type type)
+static void	ft_input_redirection(char *filename, int *pipe_fd, t_redir_type type)
 {
 	char	*line;
 	int		file_fd;
 
 	if (type == REDIR_IN)
-		file_fd = open(file, O_RDONLY);
+		file_fd = open(filename, O_RDONLY);
 	else
 		file_fd = STDIN_FILENO;
-	if (pipe(fd) == -1)
-		ft_error_handler();
 	while (1)
 	{
 		line = ft_get_next_line(file_fd);
+		printf("input line: %s\n", line);
 		if (!line)
 			break ;
 		if (type == REDIR_HEREDOC
-			&& (ft_strncmp(line, file, ft_strlen(file)) == 0
-			&& ft_strlen(line) - 1 == ft_strlen(file)))
+			&& (ft_strncmp(line, filename, ft_strlen(filename)) == 0
+			&& ft_strlen(line) - 1 == ft_strlen(filename)))
 		{
 			free (line);
 			break ;
 		}
-		write(fd[1], line, ft_strlen(line));
+		write(pipe_fd[1], line, ft_strlen(line));
 		free (line);
 	}
 	close(file_fd);
@@ -44,16 +43,23 @@ static void	ft_input_redirection(char *file, int *fd, t_redir_type type)
 
 void	ft_input_handler(t_redir *redir)
 {
-	int	fd[2];
+	int		pipe_fd[2];
+	t_redir	*valid_redir;
 
-	if (pipe(fd) == -1)
+	if (pipe(pipe_fd) == -1)
 		ft_error_handler();
+	valid_redir = NULL;
 	while (redir)
 	{
-		ft_input_redirection(redir->file, fd, redir->type);
+		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
+			valid_redir = redir;
 		redir = redir->next;
 	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
+	if (valid_redir)
+	{
+		ft_input_redirection(valid_redir->file, pipe_fd, valid_redir->type);
+		dup2(pipe_fd[0], STDIN_FILENO);
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
 }

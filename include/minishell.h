@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 17:04:01 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/25 17:01:06 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 void	ft_execution_handler(t_command *command, t_shell *shell);
 void	ft_input_handler(t_redir *redir);
 void	ft_output_handler(t_redir *redir);
-void	ft_process(int fds[2], char **args, t_shell *shell);
+void	ft_process(int pipe_fd[2], char **args, t_shell *shell);
 void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
 

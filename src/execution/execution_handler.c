@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 17:01:20 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/25 15:42:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	ft_execution_handler(t_command *command, t_shell *shell)
 		ft_output_handler(command->redirs);
 		command = command->next;
 	}
+	ft_output_handler(command->redirs);
 	ft_execution(command->args, shell->env_array);
 }

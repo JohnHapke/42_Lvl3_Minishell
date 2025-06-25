@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   process_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 16:31:08 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/25 17:01:18 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_process(int fds[2], char **args, t_shell *shell)
+void	ft_process(int pipe_fd[2], char **args, t_shell *shell)
 {
 	pid_t	pid;
 
-	if (pipe(fds) == -1)
+	if (pipe(pipe_fd) == -1)
 		ft_error_handler();
 	pid = fork();
 	if (pid == -1)
 		ft_error_handler();
 	if (pid == 0)
 	{
-		dup2(fds[1], STDOUT_FILENO);
-		close(fds[0]);
-		close(fds[1]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		ft_execution(args, shell->env_array);
 	}
 	else
 	{
-		close(fds[1]);
-		dup2(fds[0], STDIN_FILENO);
-		close(fds[0]);
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
