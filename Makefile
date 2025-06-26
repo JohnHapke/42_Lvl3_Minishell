@@ -26,7 +26,7 @@ $(OBJ_DIR):
 
 $(LIBFT):
 	@echo "$(YLW)Compiling Libft...$(DEF)"
-	@make -C libft
+	@make -C libft bonus
 
 %.o: %.c
 	@echo "$(YLW)Compiling object files...$(DEF)"
