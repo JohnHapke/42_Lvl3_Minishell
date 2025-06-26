@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/26 16:29:23 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/26 16:55:35 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	ft_process(int pipe_fd[2], char **args, t_shell *shell)
 {
 	pid_t	pid;
 
+	if (pipe(pipe_fd) == -1)
+		ft_error_handler();
 	pid = fork();
 	if (pid == -1)
-		ft_error_handler();
-	if (pipe(pipe_fd) == -1)
 		ft_error_handler();
 	if (pid == 0)
 	{
