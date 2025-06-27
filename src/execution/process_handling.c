@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/26 16:55:35 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:12:21 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_process(int pipe_fd[2], char **args, t_shell *shell)
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
-		ft_error_handler();
+		ft_error_handler(ERROR_EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		ft_error_handler();
+		ft_error_handler(ERROR_EXIT_FAILURE);
 	if (pid == 0)
 	{
 		dup2(pipe_fd[1], STDOUT_FILENO);

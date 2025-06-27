@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/25 15:24:20 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:33:49 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*ft_env_new_node(char *key, char *value)
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (new == NULL)
-		ft_error_handler();
+		ft_error_handler(ERROR_MEMORY_ALLOC);
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
@@ -48,6 +48,8 @@ void	ft_shell_init(t_shell *shell, char **envp)
 
 	i = 0;
 	shell->env_list = NULL;
+	shell->user_env_list = NULL;
+	shell->exit_status = 0;
 	while (envp[i] != NULL)
 	{
 		new_key = ft_substr(envp[i], 0,

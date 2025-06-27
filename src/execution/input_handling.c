@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:42:15 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/26 16:36:52 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:15:13 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ static void	ft_heredoc(char *delimiter)
 	int		heredoc_fd[2];
 
 	if (pipe(heredoc_fd) == -1)
-		ft_error_handler();
+		ft_error_handler(ERROR_EXIT_FAILURE);
 	while (1)
 	{
+		write(STDOUT_FILENO, "> ", 2);
 		line = ft_get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
@@ -54,15 +55,15 @@ void	ft_input_handler(t_redir *redir)
 	if (valid_redir)
 	{
 		if (valid_redir->type == REDIR_HEREDOC)
-		{
-			//write(STDERR_FILENO, valid_redir->file, ft_strlen(valid_redir->file));
 			ft_heredoc(valid_redir->file);
-		}
 		else
 		{
 			file_fd = open(valid_redir->file, O_RDONLY);
 			if (file_fd == -1)
-				ft_error_handler(/*file could not be found*/);
+			{
+				ft_error_handler(ERROR_OPEN);
+				return ;
+			}
 			else
 			{
 				dup2(file_fd, STDIN_FILENO);

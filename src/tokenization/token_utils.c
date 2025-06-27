@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:55:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/23 16:31:42 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:50:35 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*ft_token_new_node(char *value, t_token_type type)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (new == NULL)
-		ft_error_handler();
+		ft_error_handler(ERROR_MEMORY_ALLOC);
 	new->type = type;
 	new->value = value;
 	new->next = NULL;
@@ -40,4 +40,20 @@ void	ft_token_add_back(t_token **token_list, t_token *new_node)
 		current->next = new_node;
 		new_node->prev = current;
 	}
+}
+
+void	ft_token_lstclear(t_token **lst)
+{
+	t_token	*temp;
+
+	if (!lst)
+		return ;
+	while (*lst != NULL)
+	{
+		temp = (*lst)->next;
+		free((*lst)->value);
+		free((*lst));
+		*lst = temp;
+	}
+	*lst = NULL;
 }

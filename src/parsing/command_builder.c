@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/20 16:04:41 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:09:29 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_fill_command_node(t_token **token_list, t_command *command)
 	command->args = malloc((ft_count_arguments((*token_list)) + 1)
 			* sizeof(char *));
 	if (!command->args)
-		ft_error_handler();
+		ft_error_handler(ERROR_MEMORY_ALLOC);
 	while ((*token_list))
 	{
 		if ((*token_list)->type == TOKEN_WORD)
@@ -42,7 +42,7 @@ void	ft_fill_command_node(t_token **token_list, t_command *command)
 			|| (*token_list)->type == TOKEN_REDIR_OUT)
 		{
 			ft_redir_add_back(&command->redirs,
-				ft_new_node_redir((*token_list)->next->value,
+				ft_new_node_redir(ft_strdup((*token_list)->next->value),
 					ft_get_redir_type((*token_list)->value)));
 			(*token_list) = (*token_list)->next;
 		}
@@ -65,7 +65,7 @@ void	ft_command_handler(t_token *token_list, t_command **command)
 		{
 			new_node = malloc(sizeof(t_command));
 			if (!new_node)
-				ft_error_handler();
+				ft_error_handler(ERROR_MEMORY_ALLOC);
 			new_node->next = NULL;
 			ft_fill_command_node(&token_list, new_node);
 			ft_command_add_back(command, new_node);

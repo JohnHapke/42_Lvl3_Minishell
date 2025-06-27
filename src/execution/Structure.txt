@@ -1,9 +1,0 @@
-
-Collect all data from all input redirections into pipe1
-Set pipe1 to stdin
-Set pipe2 to stdout
-Collect output pipe2 into buffer (char *)
-Write buffer to various output redirection files
-Write buffer to pipe1 (which should be empty now) or to stdout if last command
-
-Loop until no commands left

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/24 14:21:38 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:03:37 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,12 @@ static char	*ft_get_token_value(char *line, int *i,
 	return (token_value);
 }
 
-void	ft_token_handler(t_shell *shell, char *line)
+void	ft_token_handler(t_shell *shell, t_token **token_list, char *line)
 {
 	int				i;
 	t_token_type	token_type;
-	t_token			*token_list;
 
 	i = 0;
-	token_list = NULL;
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ')
@@ -67,9 +65,8 @@ void	ft_token_handler(t_shell *shell, char *line)
 		else
 		{
 			token_type = ft_get_token_type(line[i]);
-			ft_token_add_back(&token_list, ft_token_new_node
+			ft_token_add_back(token_list, ft_token_new_node
 				(ft_get_token_value(line, &i, token_type), token_type));
 		}
 	}
-	ft_parsing_handler(shell, token_list);
 }

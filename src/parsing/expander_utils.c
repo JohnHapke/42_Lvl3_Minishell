@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/24 14:30:10 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:15:31 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*ft_get_unquoted_str(char *str)
 	return (unquoted);
 }
 
-char	*ft_compare_var_keys(char *var_key, t_env *env_list)
+char	*ft_list_getenv(char *var_key, t_env *env_list, t_env *user_env_list)
 {
 	while (env_list)
 	{
@@ -91,6 +91,13 @@ char	*ft_compare_var_keys(char *var_key, t_env *env_list)
 			&& (ft_strncmp(var_key, env_list->key, ft_strlen(var_key)) == 0))
 			return (env_list->value);
 		env_list = env_list->next;
+	}
+	while (user_env_list)
+	{
+		if (ft_strlen(user_env_list->key) == ft_strlen(var_key)
+			&& (ft_strncmp(var_key, user_env_list->key, ft_strlen(var_key)) == 0))
+			return (user_env_list->value);
+		user_env_list = user_env_list->next;
 	}
 	return (NULL);
 }

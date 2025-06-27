@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/26 15:59:59 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:10:16 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_output_handler(t_redir *redir)
 		{
 			file_fd = malloc(sizeof (int));
 			if (!file_fd)
-				ft_error_handler();
+				ft_error_handler(ERROR_MEMORY_ALLOC);
 			if (redir->type == REDIR_OUT)
 				*file_fd = open(redir->file,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);

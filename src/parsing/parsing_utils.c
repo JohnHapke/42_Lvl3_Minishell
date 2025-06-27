@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:16:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/12 15:54:53 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/27 10:59:18 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,28 @@ void	ft_command_add_back(t_command **command, t_command *new_node)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new_node;
+}
+
+void	ft_command_lstclear(t_command **lst)
+{
+	t_command	*cmd_temp;
+	t_redir		*redir_temp;
+
+	if (!lst)
+		return ;
+	while (*lst != NULL)
+	{
+		cmd_temp = (*lst)->next;
+		ft_free_all((*lst)->args);
+		while ((*lst)->redirs)
+		{
+			redir_temp = (*lst)->redirs->next;
+			free((*lst)->redirs->file);
+			free((*lst)->redirs);
+			(*lst)->redirs = redir_temp;
+		}
+		free(*lst);
+		*lst = cmd_temp;
+	}
+	*lst = NULL;
 }
