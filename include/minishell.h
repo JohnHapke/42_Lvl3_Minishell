@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:15:41 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:05:23 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,10 @@ char		*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
 
 // Commands
 t_redir_type	ft_get_redir_type(char	*value);
-void			ft_command_handler(t_token *token_list, t_command **command);
+void			ft_command_handler(t_shell *shell, t_token *token_list, t_command **command);
 int				ft_count_arguments(t_token *token_list);
 
 // Command list
-void		ft_fill_command_node(t_token **token_list, t_command *command);
 void		ft_command_add_back(t_command **command, t_command *new_node);
 void		ft_command_lstclear(t_command **lst);
 
@@ -141,11 +140,11 @@ t_redir		*ft_new_node_redir(char	*file, t_redir_type type);
 void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 
 // Execution
-void	ft_execution_handler(t_command *command, t_shell *shell);
-void	ft_input_handler(t_redir *redir);
-void	ft_output_handler(t_redir *redir);
-void	ft_process(int pipe_fd[2], char **args, t_shell *shell);
-void	ft_execution(char **args, char **env);
+void	ft_execution_handler(t_shell *shell, t_command *command);
+void	ft_input_handler(t_shell *shell, t_redir *redir);
+void	ft_output_handler(t_shell *shell, t_redir *redir);
+void	ft_process(t_shell *shell, int pipe_fd[2], char **args);
+void	ft_execution(t_shell *shell, char **args, char **env);
 void	ft_free(char **path);
 
 
@@ -156,7 +155,7 @@ void	ft_free(char **path);
 /*	tbd	*/
 
 // Cleanup
-void	ft_error_handler(t_error_code code);
+void	ft_error_handler(t_error_code code, int *exit_status);
 void	ft_cleanup_shell(t_shell *shell);
 
 /*	tbd	*/

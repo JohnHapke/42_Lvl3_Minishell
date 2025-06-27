@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:10:16 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:03:00 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_close(void *data)
 	close(*fd);
 }
 
-void	ft_output_handler(t_redir *redir)
+void	ft_output_handler(t_shell *shell, t_redir *redir)
 {
 	int		*file_fd;
 	t_list	*files;
@@ -34,7 +34,7 @@ void	ft_output_handler(t_redir *redir)
 		{
 			file_fd = malloc(sizeof (int));
 			if (!file_fd)
-				ft_error_handler(ERROR_MEMORY_ALLOC);
+				ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
 			if (redir->type == REDIR_OUT)
 				*file_fd = open(redir->file,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);

@@ -6,20 +6,20 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:42:15 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:15:13 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:01:58 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../get_next_line/get_next_line.h"
 
-static void	ft_heredoc(char *delimiter)
+static void	ft_heredoc(t_shell *shell, char *delimiter)
 {
 	char	*line;
 	int		heredoc_fd[2];
 
 	if (pipe(heredoc_fd) == -1)
-		ft_error_handler(ERROR_EXIT_FAILURE);
+		ft_error_handler(ERROR_EXIT_FAILURE, &shell->exit_status);
 	while (1)
 	{
 		write(STDOUT_FILENO, "> ", 2);
@@ -40,7 +40,7 @@ static void	ft_heredoc(char *delimiter)
 	close(heredoc_fd[0]);
 }
 
-void	ft_input_handler(t_redir *redir)
+void	ft_input_handler(t_shell *shell, t_redir *redir)
 {
 	int		file_fd;
 	t_redir	*valid_redir;
@@ -55,13 +55,13 @@ void	ft_input_handler(t_redir *redir)
 	if (valid_redir)
 	{
 		if (valid_redir->type == REDIR_HEREDOC)
-			ft_heredoc(valid_redir->file);
+			ft_heredoc(shell, valid_redir->file);
 		else
 		{
 			file_fd = open(valid_redir->file, O_RDONLY);
 			if (file_fd == -1)
 			{
-				ft_error_handler(ERROR_OPEN);
+				ft_error_handler(ERROR_OPEN, &shell->exit_status);
 				return ;
 			}
 			else

@@ -6,13 +6,13 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 14:05:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:07:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
+/*void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
 {
 	t_env	*current;
 	int		i;
@@ -34,13 +34,13 @@ void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
 		printf("	Value:	%s\n", current->value);
 		current = current->next;
 	}
-	/*printf("Token list:\n");
+	printf("Token list:\n");
 	while (token_list)
 	{
 		printf("%s\n", token_list->value);
 		token_list = token_list->next;
-	}*/
-	/*printf("Commands:\n");
+	}
+	printf("Commands:\n");
 	while (command)
 	{
 		printf("1\n");
@@ -59,8 +59,8 @@ void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
 		}
 		printf("3\n");
 		command = command->next;
-	}*/
-} /*temporary debug*/
+	}
+}*/
 
 void	ft_parsing_handler(t_shell *shell, char *line)
 {
@@ -71,11 +71,11 @@ void	ft_parsing_handler(t_shell *shell, char *line)
 	token_list = NULL;
 	ft_token_handler(shell, &token_list, line);
 	if (ft_token_validator(token_list) == 1)
-		ft_error_handler(ERROR_PARSING);
+		ft_error_handler(ERROR_PARSING, &shell->exit_status);
 	ft_expansion_handler(shell, &token_list);
-	ft_command_handler(token_list, &command);
+	ft_command_handler(shell, token_list, &command);
 	//debug_list_print(shell, *token_list, command);
-	ft_execution_handler(command, shell);
+	ft_execution_handler(shell, command);
 	ft_command_lstclear(&command);
 	ft_token_lstclear(&token_list);
 }

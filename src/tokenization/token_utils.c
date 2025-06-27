@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:55:12 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 12:50:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:08:46 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*ft_token_new_node(char *value, t_token_type type)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (new == NULL)
-		ft_error_handler(ERROR_MEMORY_ALLOC);
+		return (NULL);
 	new->type = type;
 	new->value = value;
 	new->next = NULL;

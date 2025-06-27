@@ -4,7 +4,7 @@ GRN = \e[32m
 YLW = \e[33m
 DEF = \e[0m
 
-NAME = Minishell
+NAME = minishell
 
 SRC := $(wildcard src/*.c) $(wildcard src/*/*.c)
 
@@ -30,7 +30,7 @@ $(LIBFT):
 
 %.o: %.c
 	@echo "$(YLW)Compiling object files...$(DEF)"
-	$(CC) -c -o $@ $<
+	$(CC) $(FLAGS) -c -o $@ $<
 
 clean:
 	@echo "$(GRN)Removing object files...$(DEF)"

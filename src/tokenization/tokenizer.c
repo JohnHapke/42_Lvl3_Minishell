@@ -6,13 +6,13 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 14:03:37 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:10:22 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_get_token_type(char c)
+static t_token_type	ft_get_token_type(char c)
 {
 	if (c == '<')
 		return (TOKEN_REDIR_IN);
@@ -56,6 +56,7 @@ void	ft_token_handler(t_shell *shell, t_token **token_list, char *line)
 {
 	int				i;
 	t_token_type	token_type;
+	t_token			*new_node;
 
 	i = 0;
 	while (line[i] != '\0')
@@ -65,8 +66,10 @@ void	ft_token_handler(t_shell *shell, t_token **token_list, char *line)
 		else
 		{
 			token_type = ft_get_token_type(line[i]);
-			ft_token_add_back(token_list, ft_token_new_node
-				(ft_get_token_value(line, &i, token_type), token_type));
+			new_node = ft_token_new_node(ft_get_token_value(line, &i, token_type), token_type);
+			if (!new_node)
+				ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
+			ft_token_add_back(token_list, new_node);
 		}
 	}
 }

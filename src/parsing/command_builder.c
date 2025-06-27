@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:09:29 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:06:26 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_redir_type	ft_get_redir_type(char	*value)
 		return (REDIR_APPEND);
 }
 
-void	ft_fill_command_node(t_token **token_list, t_command *command)
+static void	ft_fill_command_node(t_shell *shell, t_token **token_list, t_command *command)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ void	ft_fill_command_node(t_token **token_list, t_command *command)
 	command->args = malloc((ft_count_arguments((*token_list)) + 1)
 			* sizeof(char *));
 	if (!command->args)
-		ft_error_handler(ERROR_MEMORY_ALLOC);
+		ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
 	while ((*token_list))
 	{
 		if ((*token_list)->type == TOKEN_WORD)
@@ -53,7 +53,7 @@ void	ft_fill_command_node(t_token **token_list, t_command *command)
 	command->args[i + 1] = NULL;
 }
 
-void	ft_command_handler(t_token *token_list, t_command **command)
+void	ft_command_handler(t_shell *shell, t_token *token_list, t_command **command)
 {
 	t_command	*new_node;
 
@@ -65,9 +65,9 @@ void	ft_command_handler(t_token *token_list, t_command **command)
 		{
 			new_node = malloc(sizeof(t_command));
 			if (!new_node)
-				ft_error_handler(ERROR_MEMORY_ALLOC);
+				ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
 			new_node->next = NULL;
-			ft_fill_command_node(&token_list, new_node);
+			ft_fill_command_node(shell, &token_list, new_node);
 			ft_command_add_back(command, new_node);
 		}
 	}

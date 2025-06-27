@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 13:33:49 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:08:13 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*ft_env_new_node(char *key, char *value)
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (new == NULL)
-		ft_error_handler(ERROR_MEMORY_ALLOC);
+		return (NULL);
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
