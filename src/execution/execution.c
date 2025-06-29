@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:58:43 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:53:57 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,33 @@ static char	*ft_get_cmd_path(char *cmd, char **env)
 	return (NULL);
 }
 
-void	ft_execution(t_shell *shell, char **args, char **env)
+void	ft_execution(t_shell *shell, char **args, char **env, bool is_child)
 {
 	char	*cmd_path;
 
 	if (!args || !args[0])
-		ft_error_handler(ERROR_EXIT_FAILURE, &shell->exit_status);
+		ft_command_error(E_CMD, args[0], &shell->exit_status);
 	cmd_path = ft_get_cmd_path(args[0], env);
 	if (!cmd_path)
-		ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
+		ft_command_error(E_CMD, args[0], &shell->exit_status);
 	execve(cmd_path, args, env);
 	free(cmd_path);
-	ft_error_handler(ERROR_CMD_NOT_EXECUTABLE, &shell->exit_status);
+	if (errno == EACCES)
+	{
+		ft_command_error(E_PERMISSION, args[0], &shell->exit_status);
+		if (is_child == TRUE)
+			exit(126);
+	}
+	else if (errno == ENOENT)
+	{
+		ft_command_error(E_CMD, args[0], &shell->exit_status);
+		if (is_child == TRUE)
+			exit(127);
+	}
+	else
+	{
+		ft_str_error(E_OTHER, args[0], &shell->exit_status);
+		if (is_child == TRUE)
+			exit(1);
+	}
 }

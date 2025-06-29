@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 15:05:23 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:15:48 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@
 extern int	g_signal;
 
 /* Data strucutres */
+
+typedef enum e_exec_error
+{
+	E_FORK,
+	E_PIPE,
+	E_DUP,
+	E_DUP2,
+	E_CMD,
+	E_PERMISSION,
+	E_OPEN,
+	E_ACCESS,
+	E_MEM,
+	E_OTHER
+}			t_exec_error;
+
 typedef enum e_error_code
 {
 	ERROR_EXIT_FAILURE = 1,
@@ -157,7 +172,9 @@ void	ft_free(char **path);
 // Cleanup
 void	ft_error_handler(t_error_code code, int *exit_status);
 void	ft_cleanup_shell(t_shell *shell);
-
+int		ft_process_error(t_exec_error error, int *exit);
+int		ft_command_error(t_exec_error error, char *cmd, int *exit);
+int		ft_str_error(t_exec_error error, char *arg, int *exit);
 /*	tbd	*/
 
 

@@ -1,0 +1,9 @@
+1. bool is_child in execution -> case: when execve is not working but we are in the child process, then we have to exit manually
+2. return of functions with int and control in execution handler
+	2.1 control paths of return and usage of ERROR_... or EXIT_SUCCESS (makes it more clearly)
+	2.2 execution handler can stay as a void to do cleanup afterwards in parser
+
+
+-> idea!! : We could implement it like I am doing it right now with the pointer of shell->exit_status but we also could build the returns 
+safe until the shell loop and change the parsing_handler to an int and return the exit_status
+	-> shell->exit_status = parsing_handler(...);

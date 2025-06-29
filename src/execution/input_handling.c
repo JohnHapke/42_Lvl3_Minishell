@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:42:15 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 15:01:58 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:15:48 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_heredoc(t_shell *shell, char *delimiter)
 	int		heredoc_fd[2];
 
 	if (pipe(heredoc_fd) == -1)
-		ft_error_handler(ERROR_EXIT_FAILURE, &shell->exit_status);
+		ft_process_error(E_PIPE, shell->exit_status);
 	while (1)
 	{
 		write(STDOUT_FILENO, "> ", 2);
@@ -40,18 +40,23 @@ static void	ft_heredoc(t_shell *shell, char *delimiter)
 	close(heredoc_fd[0]);
 }
 
-void	ft_input_handler(t_shell *shell, t_redir *redir)
+static void	ft_find_valid_node(t_redir *redir, t_redir *valid_redir)
 {
-	int		file_fd;
-	t_redir	*valid_redir;
-
-	valid_redir = NULL;
 	while (redir)
 	{
 		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
 			valid_redir = redir;
 		redir = redir->next;
 	}
+}
+
+int	ft_input_handler(t_shell *shell, t_redir *redir)
+{
+	int		file_fd;
+	t_redir	*valid_redir;
+
+	valid_redir = NULL;
+	ft_find_valid_redir(redir, valid_redir);
 	if (valid_redir)
 	{
 		if (valid_redir->type == REDIR_HEREDOC)
@@ -60,15 +65,14 @@ void	ft_input_handler(t_shell *shell, t_redir *redir)
 		{
 			file_fd = open(valid_redir->file, O_RDONLY);
 			if (file_fd == -1)
-			{
-				ft_error_handler(ERROR_OPEN, &shell->exit_status);
-				return ;
-			}
+				return (ft_str_error(E_OPEN, valid_redir->file, &shell->exit_status));
 			else
 			{
-				dup2(file_fd, STDIN_FILENO);
+				if (dup2(file_fd, STDIN_FILENO) == -1)
+					return (ft_process_error(E_DUP2, shell->exit_status));
 				close(file_fd);
 			}
 		}
 	}
+	return (EXIT_SUCCESS);
 }
