@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 16:23:25 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:54:57 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	ft_execution_handler(t_shell *shell, t_command *command)
 		if (error != 0)
 			return (error);
 		error = ft_process(shell, pipe_fd, command->args);
-		printf("not the last command\n");
-		printf("%i\n", error);
 		command = command->next;
 	}
 	error = ft_last_command(shell, command);

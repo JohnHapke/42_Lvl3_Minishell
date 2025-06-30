@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:42:15 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 14:58:43 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 17:03:49 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static int	ft_heredoc(char *delimiter)
 	return (EXIT_SUCCESS);
 }
 
-static void	ft_find_valid_node(t_redir *redir, t_redir *valid_redir)
+static void	ft_find_valid_node(t_redir *redir, t_redir **valid_redir)
 {
 	while (redir)
 	{
 		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
-			valid_redir = redir;
+			*valid_redir = redir;
 		redir = redir->next;
 	}
 }
@@ -58,7 +58,7 @@ int	ft_input_handler(t_redir *redir)
 	t_redir	*valid_redir;
 
 	valid_redir = NULL;
-	ft_find_valid_node(redir, valid_redir);
+	ft_find_valid_node(redir, &valid_redir);
 	if (valid_redir)
 	{
 		if (valid_redir->type == REDIR_HEREDOC)

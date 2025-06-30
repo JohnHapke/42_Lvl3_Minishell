@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 14:54:38 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:51:54 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@ static void	ft_close(void *data)
 
 	fd = (int *)data;
 	close(*fd);
+}
+
+static void	ft_get_ofile(t_list **files, t_redir *redir, int *file_fd)
+{
+	if (redir->type == REDIR_OUT)
+		*file_fd = open(redir->file,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (redir->type == REDIR_APPEND)
+		*file_fd = open(redir->file,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
+	ft_lstadd_back(files, ft_lstnew(file_fd));
 }
 
 int	ft_output_handler(t_redir *redir)
@@ -34,14 +45,8 @@ int	ft_output_handler(t_redir *redir)
 		{
 			file_fd = malloc(sizeof (int));
 			if (!file_fd)
-				return (ft_other_error(E_MEM, NULL));
-			if (redir->type == REDIR_OUT)
-				*file_fd = open(redir->file,
-						O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else if (redir->type == REDIR_APPEND)
-				*file_fd = open(redir->file,
-						O_WRONLY | O_CREAT | O_APPEND, 0644);
-			ft_lstadd_back(&files, ft_lstnew(file_fd));
+				return (ft_other_error(E_MEM, NULL)); //incorrect since we dont free the list nor the file_fd
+			ft_get_ofile(&files, redir, file_fd);
 		}
 		redir = redir->next;
 	}

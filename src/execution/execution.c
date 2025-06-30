@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:52:43 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:58:45 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,16 @@ void	ft_execution(char **args, char **env)
 {
 	char	*cmd_path;
 
+	ft_restore_signals();
 	if (!args || !args[0])
-	{
-		ft_command_error(E_CMD, args[0]);
-		exit(127);
-	}
+		exit(ft_command_error(E_CMD, args[0]));
 	cmd_path = ft_get_cmd_path(args[0], env);
 	if (!cmd_path)
-	{
-		ft_command_error(E_CMD, args[0]);
-		exit(127);
-	}
+		exit(ft_command_error(E_CMD, args[0]));
 	execve(cmd_path, args, env);
 	free(cmd_path);
 	if (errno == EACCES)
-	{
-		ft_command_error(E_PERMISSION, args[0]);
-		exit(126);
-	}
+		exit(ft_command_error(E_PERMISSION, args[0]));
 	else
-	{
-		ft_other_error(E_OTHER, args[0]);
-		exit(1);
-	}
+		exit(ft_other_error(E_OTHER, args[0]));
 }

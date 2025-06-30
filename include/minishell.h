@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:32:49 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:10:15 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define _POSIX_C_SOURCE 200809L
 
 # include "../libft/libft.h"
 # include <errno.h>
@@ -26,9 +28,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define _POSIX_C_SOURCE 200809L
-
-extern int	g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 /* Data strucutres */
 
@@ -168,7 +168,9 @@ int		ft_control_waitpid_status(int status);
 /*	tbd	*/
 
 // Signals
-/*	tbd	*/
+void	ft_init_signals(void);
+void	ft_restore_signals(void);
+void	ft_set_signal(int sig_type, void (*handler)(int));
 
 // Cleanup
 void	ft_error_handler(t_error_code code, int *exit_status);
