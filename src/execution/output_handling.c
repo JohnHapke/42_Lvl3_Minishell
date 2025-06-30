@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/29 17:15:48 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 14:54:38 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_close(void *data)
 	close(*fd);
 }
 
-int	ft_output_handler(t_shell *shell, t_redir *redir)
+int	ft_output_handler(t_redir *redir)
 {
 	int		*file_fd;
 	t_list	*files;
@@ -34,7 +34,7 @@ int	ft_output_handler(t_shell *shell, t_redir *redir)
 		{
 			file_fd = malloc(sizeof (int));
 			if (!file_fd)
-				return (ft_other_error(E_MEM, NULL, &shell->exit_status));
+				return (ft_other_error(E_MEM, NULL));
 			if (redir->type == REDIR_OUT)
 				*file_fd = open(redir->file,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -48,9 +48,9 @@ int	ft_output_handler(t_shell *shell, t_redir *redir)
 	if (file_fd != NULL)
 	{
 		if (dup2(*file_fd, STDOUT_FILENO) == -1)
-			return (ft_process_error(E_DUP2, shell->exit_status));
+			return (ft_process_error(E_DUP2));
 		ft_lstiter(files, &ft_close);
 		ft_lstclear(&files, &free);
 	}
-	return (EXIT_SUCESS);
+	return (EXIT_SUCCESS);
 }

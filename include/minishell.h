@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/29 17:15:48 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 15:32:49 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void		ft_token_lstclear(t_token **lst);
 
 //* Parsing
 int			ft_token_validator(t_token *token_list);
-void		ft_parsing_handler(t_shell *shell, char *line);
+int		ft_parsing_handler(t_shell *shell, char *line);
 
 // Expansion
 void		ft_expand_variables(t_shell *shell, char **value);
@@ -155,12 +155,13 @@ t_redir		*ft_new_node_redir(char	*file, t_redir_type type);
 void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 
 // Execution
-void	ft_execution_handler(t_shell *shell, t_command *command);
-void	ft_input_handler(t_shell *shell, t_redir *redir);
-void	ft_output_handler(t_shell *shell, t_redir *redir);
-void	ft_process(t_shell *shell, int pipe_fd[2], char **args);
-void	ft_execution(t_shell *shell, char **args, char **env);
+int		ft_execution_handler(t_shell *shell, t_command *command);
+int		ft_input_handler(t_redir *redir);
+int		ft_output_handler(t_redir *redir);
+int		ft_process(t_shell *shell, int pipe_fd[2], char **args);
+void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
+int		ft_control_waitpid_status(int status);
 
 
 // Builtins
@@ -172,10 +173,9 @@ void	ft_free(char **path);
 // Cleanup
 void	ft_error_handler(t_error_code code, int *exit_status);
 void	ft_cleanup_shell(t_shell *shell);
-int		ft_process_error(t_exec_error error, int *exit);
-int		ft_command_error(t_exec_error error, char *cmd, int *exit);
-int		ft_str_error(t_exec_error error, char *arg, int *exit);
+int		ft_process_error(t_exec_error error);
+int		ft_command_error(t_exec_error error, char *cmd);
+int		ft_other_error(t_exec_error error, char *arg);
 /*	tbd	*/
-
 
 #endif

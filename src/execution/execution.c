@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/29 16:53:57 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 15:09:23 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,36 @@ static char	*ft_get_cmd_path(char *cmd, char **env)
 	return (NULL);
 }
 
-void	ft_execution(t_shell *shell, char **args, char **env, bool is_child)
+void	ft_execution(char **args, char **env)
 {
 	char	*cmd_path;
 
 	if (!args || !args[0])
-		ft_command_error(E_CMD, args[0], &shell->exit_status);
+	{
+		ft_command_error(E_CMD, args[0]);
+		exit(127);
+	}
 	cmd_path = ft_get_cmd_path(args[0], env);
 	if (!cmd_path)
-		ft_command_error(E_CMD, args[0], &shell->exit_status);
+	{
+		ft_command_error(E_CMD, args[0]);
+		exit(127);
+	}
 	execve(cmd_path, args, env);
 	free(cmd_path);
 	if (errno == EACCES)
 	{
-		ft_command_error(E_PERMISSION, args[0], &shell->exit_status);
-		if (is_child == TRUE)
-			exit(126);
+		ft_command_error(E_PERMISSION, args[0]);
+		exit(126);
 	}
 	else if (errno == ENOENT)
 	{
-		ft_command_error(E_CMD, args[0], &shell->exit_status);
-		if (is_child == TRUE)
-			exit(127);
+		ft_command_error(E_CMD, args[0]);
+		exit(127);
 	}
 	else
 	{
-		ft_str_error(E_OTHER, args[0], &shell->exit_status);
-		if (is_child == TRUE)
-			exit(1);
+		ft_other_error(E_OTHER, args[0]);
+		exit(1);
 	}
 }

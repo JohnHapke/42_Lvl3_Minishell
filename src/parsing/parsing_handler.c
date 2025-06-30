@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 15:07:34 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:40:57 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,25 @@
 	}
 }*/
 
-void	ft_parsing_handler(t_shell *shell, char *line)
+int	ft_parsing_handler(t_shell *shell, char *line)
 {
 	t_token			*token_list;
 	t_command		*command;
-	
+	int				error;
+
 	command = NULL;
 	token_list = NULL;
 	ft_token_handler(shell, &token_list, line);
-	if (ft_token_validator(token_list) == 1)
-		ft_error_handler(ERROR_PARSING, &shell->exit_status);
+	if (ft_token_validator(token_list) == 2)
+		return (ERROR_USAGE);
 	ft_expansion_handler(shell, &token_list);
 	ft_command_handler(shell, token_list, &command);
 	//debug_list_print(shell, *token_list, command);
-	ft_execution_handler(shell, command);
+	error = ft_execution_handler(shell, command);
+	printf("%i\n", error);
 	ft_command_lstclear(&command);
 	ft_token_lstclear(&token_list);
+	if (error != 0)
+		return (error);
+	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 14:05:54 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:03:19 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_shell_loop(t_shell *shell)
 			break ;										/*Temporary*/
 		if (line == NULL)
 			break ;
-		ft_parsing_handler(shell, line);
+		shell->exit_status = ft_parsing_handler(shell, line);
 		// TODO
 		add_history(line);
 		free(line);
