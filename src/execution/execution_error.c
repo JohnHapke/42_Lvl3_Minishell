@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:58:42 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:39:00 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 15:56:30 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,14 @@
 int	ft_process_error(t_exec_error error)
 {
 	if (error == E_FORK)
-	{
 		perror("./minishell: fork");
-		return (ERROR_EXIT_FAILURE);
-	}
 	if (error == E_PIPE)
-	{
 		perror("./minishell: pipe");
-		return (ERROR_EXIT_FAILURE);
-	}
 	if (error == E_DUP)
-	{
 		perror("./minishell: dup");
-		return (ERROR_EXIT_FAILURE);
-	}
 	if (error == E_DUP2)
-	{
 		perror("./minishell: dup2");
-		return (ERROR_EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	return (ERROR_EXIT_FAILURE);
 }
 
 int	ft_command_error(t_exec_error error, char *cmd)

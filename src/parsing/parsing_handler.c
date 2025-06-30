@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/30 15:40:57 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 15:58:23 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	ft_parsing_handler(t_shell *shell, char *line)
 	ft_command_handler(shell, token_list, &command);
 	//debug_list_print(shell, *token_list, command);
 	error = ft_execution_handler(shell, command);
-	printf("%i\n", error);
 	ft_command_lstclear(&command);
 	ft_token_lstclear(&token_list);
 	if (error != 0)

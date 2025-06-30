@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:09:23 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 15:52:43 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,6 @@ void	ft_execution(char **args, char **env)
 	{
 		ft_command_error(E_PERMISSION, args[0]);
 		exit(126);
-	}
-	else if (errno == ENOENT)
-	{
-		ft_command_error(E_CMD, args[0]);
-		exit(127);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:37:03 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:09:56 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_control_waitpid_status(int status)
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
-	return (-1);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_process(t_shell *shell, int pipe_fd[2], char **args)
@@ -42,12 +42,12 @@ int	ft_process(t_shell *shell, int pipe_fd[2], char **args)
 	}
 	else
 	{
+		close(pipe_fd[1]);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			ft_process_error(E_DUP2);
-		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		waitpid(pid, &status, 0);
-		return (ft_control_waitpid_status(status));
+		//return (ft_control_waitpid_status(status));
 	}
-	return (EXIT_SUCCESS);
+	return (ft_control_waitpid_status(status));
 }

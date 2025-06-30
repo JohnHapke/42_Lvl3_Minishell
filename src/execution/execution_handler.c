@@ -6,7 +6,7 @@
 /*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 15:36:15 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:23:25 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,19 @@ int	ft_execution_handler(t_shell *shell, t_command *command)
 		error = ft_output_handler(command->redirs);
 		if (error != 0)
 			return (error);
-		if (ft_process(shell, pipe_fd, command->args) == 1)
-			return (ERROR_EXIT_FAILURE);
+		error = ft_process(shell, pipe_fd, command->args);
+		printf("not the last command\n");
+		printf("%i\n", error);
 		command = command->next;
 	}
 	error = ft_last_command(shell, command);
-	if (error != 0)
-		return (error);
 	if (dup2(stdin_fd, STDIN_FILENO) == -1)
 		ft_process_error(E_DUP2);
 	if (dup2(stdout_fd, STDOUT_FILENO) == -1)
 		ft_process_error(E_DUP2);
 	close(stdout_fd);
 	close(stdin_fd);
+	if (error != 0)
+		return (error);
 	return (EXIT_SUCCESS);
 }
