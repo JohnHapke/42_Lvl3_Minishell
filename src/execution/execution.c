@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 16:58:45 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:43:44 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*ft_get_cmd_path(char *cmd, char **env)
 	return (NULL);
 }
 
-void	ft_execution(char **args, char **env)
+void	ft_execution(t_shell *shell, char **args, char **env)
 {
 	char	*cmd_path;
 

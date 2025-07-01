@@ -6,61 +6,11 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/30 16:31:55 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:45:55 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*void	debug_list_print(t_shell *shell, t_token *token_list, t_command *command)
-{
-	t_env	*current;
-	int		i;
-
-	i = 0;
-	current = shell->env_list;
-	printf("Environment:\n");
-	while (current)
-	{
-		printf("	Key:	%s\n", current->key);
-		printf("	Value:	%s\n", current->value);
-		current = current->next;
-	}
-	current = shell->user_env_list;
-	printf("User environment:\n");
-	while (current)
-	{
-		printf("	Key:	%s\n", current->key);
-		printf("	Value:	%s\n", current->value);
-		current = current->next;
-	}
-	printf("Token list:\n");
-	while (token_list)
-	{
-		printf("%s\n", token_list->value);
-		token_list = token_list->next;
-	}
-	printf("Commands:\n");
-	while (command)
-	{
-		printf("1\n");
-		while (command->redirs)
-		{
-			printf("redir type : %i\n", command->redirs->type);
-			printf("redir file : %s\n", command->redirs->file);
-			command->redirs = command->redirs->next;
-		}
-		i = 0;
-		printf("2\n");
-		while (command->args[i])
-		{
-			printf("command  args : %s\n", command->args[i]);
-			i++;
-		}
-		printf("3\n");
-		command = command->next;
-	}
-}*/
 
 int	ft_parsing_handler(t_shell *shell, char *line)
 {
@@ -73,7 +23,8 @@ int	ft_parsing_handler(t_shell *shell, char *line)
 	ft_token_handler(shell, &token_list, line);
 	if (ft_token_validator(token_list) == 2)
 		return (ERROR_USAGE);
-	ft_expansion_handler(shell, &token_list);
+	if (ft_expansion_handler(shell, &token_list) != EXIT_SUCCESS)
+		return (128);
 	ft_command_handler(shell, token_list, &command);
 	error = ft_execution_handler(shell, command);
 	ft_command_lstclear(&command);

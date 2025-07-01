@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/27 11:53:49 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:40:22 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_get_var_key(char *str)
 	char	*key;
 
 	i = 0;
+	if (str[i] == '?')
+		return (ft_strdup("?"));
 	while (str[i] != '\0')
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
@@ -54,7 +56,10 @@ void	ft_expand_variables(t_shell *shell, char **value)
 		if ((*value)[i] == '$' && is_in_quote == false)
 		{
 			var_key = ft_get_var_key(&(*value)[i + 1]);
-			var_value = ft_list_getenv(var_key, shell->env_list, shell->user_env_list);
+			if (ft_strncmp(var_key, "?", ft_strlen(var_key)) == 0 && ft_strlen(var_key))
+				var_value = ft_itoa(shell->exit_status);
+			else
+				var_value = ft_list_getenv(var_key, shell->env_list, shell->user_env_list);
 			temp_str = ft_insert_str(*value, var_value,
 					ft_strlen(var_key + 1), &i);
 			free(var_key);
@@ -65,7 +70,7 @@ void	ft_expand_variables(t_shell *shell, char **value)
 	}
 }
 
-void	ft_expansion_handler(t_shell *shell, t_token **token_list)
+int	ft_expansion_handler(t_shell *shell, t_token **token_list)
 {
 	char	*temp;
 	t_token	*current;
@@ -80,4 +85,5 @@ void	ft_expansion_handler(t_shell *shell, t_token **token_list)
 		free(temp);
 		current = current->next;
 	}
+	return (EXIT_SUCCESS);
 }

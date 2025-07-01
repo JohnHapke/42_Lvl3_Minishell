@@ -11,7 +11,7 @@ SRC := $(wildcard src/*.c) $(wildcard src/*/*.c)
 OBJ = $(SRC:.c=.o)
 OBJ_DIR = obj/
 
-FLAGS = -Wall -Wextra -Werror -g -O0 #-fsanitize=address#TEMP
+FLAGS = -Wall -Wextra  -g -O0 #-fsanitize=address#TEMP -Werror
 LIBFT = libft/libft.a
 CC = @cc $(CFLAGS)
 

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/06/30 16:10:15 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:43:17 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ typedef enum e_error_code
 	ERROR_USAGE = 2,
 	ERROR_CMD_NOT_EXECUTABLE = 126,
 	ERROR_CMD_NOT_FOUND = 127,
-	ERROR_PARSING,
-	ERROR_MEMORY_ALLOC,
-	ERROR_OPEN,
-	ERROR_CLOSE
+	ERROR_MEMORY_ALLOC
 }			t_error_code;
 
 typedef enum e_redir_type
@@ -132,7 +129,7 @@ int		ft_parsing_handler(t_shell *shell, char *line);
 
 // Expansion
 void		ft_expand_variables(t_shell *shell, char **value);
-void		ft_expansion_handler(t_shell *shell, t_token **token_list);
+int			ft_expansion_handler(t_shell *shell, t_token **token_list);
 void		ft_var_extract_handler(t_shell *shell, t_token **token_list);
 char		*ft_get_var_key(char *str);
 bool		ft_variable_check(char *value);
@@ -159,13 +156,21 @@ int		ft_execution_handler(t_shell *shell, t_command *command);
 int		ft_input_handler(t_redir *redir);
 int		ft_output_handler(t_redir *redir);
 int		ft_process(t_shell *shell, int pipe_fd[2], char **args);
-void	ft_execution(char **args, char **env);
+void	ft_execution(t_shell *shell, char **args, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);
 
 
 // Builtins
-/*	tbd	*/
+int		ft_builtin_handler(t_shell *shell, char **args);
+int		ft_cd(char **args);
+int		ft_echo(char **args);
+int		ft_env(t_shell *shell, char **argv);
+int		ft_exit(char **args);
+int		ft_export(t_shell *shell, char **args);
+int		ft_pwd(char **args);
+int		ft_unset(char **args);
+
 
 // Signals
 void	ft_init_signals(void);
