@@ -6,28 +6,32 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:05 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/01 15:56:03 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:33:58 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_env(t_shell *shell, char **argv)
+int	ft_env(t_shell *shell, char **argv, int *pipe_fd)
 {
 	t_env	*current;
+	int		i;
 
-	if (argv[1] != NULL)
-	{
-		//return (ft_other_error(E_OTHER, argv[1]));
-		printf("env: Invalid argument: %s", argv[1]);
-		return (1);
-	}
 	current = shell->env_list;
-	printf("minishell builtin!\n");
 	while (current)
 	{
-		printf("%s%c%s\n", current->key, '=', current->value);
+		ft_putstr_fd(current->key, pipe_fd[1]);
+		ft_putchar_fd('=', pipe_fd[1]);
+		ft_putstr_fd(current->value, pipe_fd[1]);
+		ft_putchar_fd('\n', pipe_fd[1]);
 		current = current->next;
+	}
+	i = 1;
+	while (argv[i])
+	{
+		ft_putstr_fd(argv[i], pipe_fd[1]);
+		ft_putchar_fd('\n', pipe_fd[1]);
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }

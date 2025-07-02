@@ -1,4 +1,5 @@
 1. implementation of parsing specific error_handling especially in token validator which is a bit to complicated built at the moment
 
-2. redo variable asignation to be simpler and closer to bash
-	example "greeting=hello echo $greeting" has empty output, as variable is not actually assigned due to a command being present on the same line
+2. revise variable asignation to be simpler and closer to bash
+	Variable assignation can only be at start of line or first word after pipe
+	Variables can be temporary for certain commands

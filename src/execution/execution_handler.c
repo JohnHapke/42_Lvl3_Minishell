@@ -6,13 +6,13 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/01 16:43:33 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:05:17 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_last_command(t_shell *shell, t_command *command)
+static int	ft_last_command(t_shell *shell, t_command *command, int *stdio_fd)
 {
 	pid_t	pid;
 	int		error;
@@ -23,14 +23,14 @@ static int	ft_last_command(t_shell *shell, t_command *command)
 	{
 		if (ft_input_handler(command->redirs) == 1)
 			return (ERROR_EXIT_FAILURE);
-		error = ft_output_handler(command->redirs);
+		error = ft_output_handler(command->redirs, STDOUT_FILENO);
 		if (error != 0)
 			return (error);
 		pid = fork();
 		if (pid == -1)
 			return (ft_process_error(E_FORK));
 		if (pid == 0)
-			ft_execution(shell, command->args, shell->env_array);
+			ft_execution(command->args, shell->env_array);
 		else
 			waitpid(pid, &status, 0);
 		return (ft_control_waitpid_status(status));
@@ -38,17 +38,18 @@ static int	ft_last_command(t_shell *shell, t_command *command)
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_restore_stdio_fd(bool restore)
+static int	ft_restore_stdio_fd(bool restore, int *stdio_fd)
 {
-	static int	stdio_fd[2];
 	int			dup_error;
 	
 	dup_error = 1;
 	if (restore == false)
 	{
-		if (dup2(STDIN_FILENO, stdio_fd[0]) == -1)
-			return (-1);
-		if (dup2(STDOUT_FILENO, stdio_fd[1]) == -1)
+		stdio_fd[0] = dup(STDIN_FILENO);
+		if (stdio_fd[0] == -1)
+			return (1);
+		stdio_fd[1] = dup(STDOUT_FILENO);
+		if (stdio_fd[1] == -1)
 		{
 			close(stdio_fd[0]);
 			return (-1);
@@ -65,30 +66,37 @@ static int	ft_restore_stdio_fd(bool restore)
 	}
 }
 
-int	ft_execution_handler(t_shell *shell, t_command *command)
+int	ft_external_handler(t_shell *shell, t_command *command, int *pipe_fd)
 {
-	int	pipe_fd[2];
-	
 	int	error;
 
-	if (ft_restore_stdio_fd(0) != 1)
-		ft_process_error(E_DUP2);
+	if (ft_input_handler(command->redirs) == -1)
+		return (ERROR_EXIT_FAILURE);
+	error = ft_output_handler(command->redirs, STDOUT_FILENO);
+	if (error != 0)
+		return (error);
+	error = ft_process(shell, command->args, pipe_fd);
+}
+
+int	ft_execution_handler(t_shell *shell, t_command *command)
+{
+	int	stdio_fd[2]; // ignore
+	int	pipe_fd[2];
+	int	error;
+
+	ft_restore_stdio_fd(false, stdio_fd);
 	while (command && command->next)
 	{
-		if (ft_input_handler(command->redirs) == -1)
-			return (ERROR_EXIT_FAILURE);
-		error = ft_output_handler(command->redirs);
-		if (error != 0)
-			return (error);
-		error = ft_builtin_handler(shell, command->args);
-		if (error == EXIT_SUCCESS)
-			error = ft_process(shell, pipe_fd, command->args);
+		if (pipe(pipe_fd) == -1)
+			return (ft_process_error(E_PIPE));
+		error = ft_builtin_handler(shell, command, pipe_fd);
+		if (error == EXIT_FAILURE)
+			error = ft_external_handler(shell, command, pipe_fd);
 		command = command->next;
 	}
-	error = ft_builtin_handler(shell, command->args);
-	if (error == EXIT_SUCCESS)
-		error = ft_last_command(shell, command);
-	if (ft_restore_stdio_fd(1) != 1)
-		ft_process_error(E_DUP2);
+	error = ft_builtin_handler(shell, command, stdio_fd);
+	if (error == EXIT_FAILURE)
+		error = ft_last_command(shell, command, stdio_fd);
+	ft_restore_stdio_fd(true, stdio_fd);
 	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/01 15:43:17 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:00:44 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,22 +154,22 @@ void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 // Execution
 int		ft_execution_handler(t_shell *shell, t_command *command);
 int		ft_input_handler(t_redir *redir);
-int		ft_output_handler(t_redir *redir);
-int		ft_process(t_shell *shell, int pipe_fd[2], char **args);
-void	ft_execution(t_shell *shell, char **args, char **env);
+int		ft_output_handler(t_redir *redir, int out);
+int		ft_process(t_shell *shell, char **args, int *pipe_fd);
+void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);
 
 
 // Builtins
-int		ft_builtin_handler(t_shell *shell, char **args);
-int		ft_cd(char **args);
-int		ft_echo(char **args);
-int		ft_env(t_shell *shell, char **argv);
-int		ft_exit(char **args);
-int		ft_export(t_shell *shell, char **args);
-int		ft_pwd(char **args);
-int		ft_unset(char **args);
+int		ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd);
+int		ft_cd(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_echo(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_env(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_exit(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_export(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_pwd(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_unset(t_shell *shell, char **argv, int *pipe_fd);
 
 
 // Signals
