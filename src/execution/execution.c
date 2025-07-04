@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:02:02 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/02 15:12:19 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:49:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_execution(char **args, char **env)
 
 	ft_restore_signals();
 	if (!args || !args[0])
-		exit(ft_command_error(E_CMD, args[0]));
+		exit(EXIT_SUCCESS);
 	cmd_path = ft_get_cmd_path(args[0], env);
 	if (!cmd_path)
 		exit(ft_command_error(E_CMD, args[0]));

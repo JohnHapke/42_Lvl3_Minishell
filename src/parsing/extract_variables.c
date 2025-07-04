@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:27:53 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:47:24 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:36:26 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token	*ft_remove_current_token(t_token **token_list, t_token *current)
 	return (temp);
 }
 
-static t_env	*ft_find_env_node(char *var_key, t_env *env_list, t_env *user_env_list)
+t_env	*ft_find_env_node(char *var_key, t_env *env_list, t_env *user_env_list)
 {
 	while (env_list)
 	{
@@ -78,7 +78,7 @@ void	ft_var_extract_handler(t_shell *shell, t_token **token_list)
 	t_token	*current;
 
 	current = *token_list;
-	while (current != NULL)
+	if (current != NULL)
 	{
 		if (current->type == TOKEN_WORD && ft_variable_check(current->value))
 		{

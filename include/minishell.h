@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/02 17:00:44 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:14:35 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef enum e_exec_error
 	E_OPEN,
 	E_ACCESS,
 	E_MEM,
+	E_NEWLINE,
+	E_REDIR, 
 	E_OTHER
 }			t_exec_error;
 
@@ -136,6 +138,7 @@ bool		ft_variable_check(char *value);
 char		*ft_get_unquoted_str(char *str);
 char		*ft_list_getenv(char *var_key, t_env *env_list, t_env *user_env_list);
 char		*ft_insert_str(char *str, char *insert, int varkey_len, int *i);
+t_env		*ft_find_env_node(char *var_key, t_env *env_list, t_env *user_env_list);
 
 // Commands
 t_redir_type	ft_get_redir_type(char	*value);

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:10:51 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:42:56 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ int	(*ft_is_builtin(char **args))(t_shell *shell, char **args, int *pipe_fd)
 int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd)
 {
 	int	exit_status;
-
 	int	(*func_ptr)(t_shell *shell, char **args, int *pipe_fd);
-
+	
 	exit_status = EXIT_FAILURE;
+	if (command->args == NULL || command->args[0] == NULL)
+		return (-1);
 	func_ptr = ft_is_builtin(command->args);
 	if (func_ptr)
 	{
@@ -48,5 +49,7 @@ int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd)
 			ft_process_error(E_DUP2);
 		close(pipe_fd[0]);
 	}
+	else
+		return (-1);
 	return (exit_status);
 }

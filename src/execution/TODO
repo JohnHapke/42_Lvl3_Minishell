@@ -3,9 +3,6 @@
 	2.1 control paths of return and usage of ERROR_... or EXIT_SUCCESS (makes it more clearly)
 	2.2 execution handler can stay as a void to do cleanup afterwards in parser
 
-3. Handle relative paths on top of 
+3. Handle relative paths
 
-4. Token validation is incorrect
-	redirection crashes program when no file is provided
-	multiple pipes are not recognized as error
-	
+4. Write the builtins
