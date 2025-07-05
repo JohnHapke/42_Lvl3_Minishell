@@ -19,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
 	@echo "$(GRN)Done!$(DEF)"
-	$(CC) $(FLAGS) -lreadline $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
