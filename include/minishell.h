@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/04 15:14:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:37:38 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int		ft_process(t_shell *shell, char **args, int *pipe_fd);
 void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);
+char	*ft_get_cmd_path(char *cmd, char **env);
 
 
 // Builtins
@@ -174,6 +175,7 @@ int		ft_export(t_shell *shell, char **argv, int *pipe_fd);
 int		ft_pwd(t_shell *shell, char **argv, int *pipe_fd);
 int		ft_unset(t_shell *shell, char **argv, int *pipe_fd);
 
+char	**ft_list_to_strv(t_env *env);
 
 // Signals
 void	ft_init_signals(void);

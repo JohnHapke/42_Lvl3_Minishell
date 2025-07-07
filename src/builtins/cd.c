@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:35 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/05 18:53:59 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/07/07 15:34:24 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ int	ft_cd(t_shell *shell, char **argv, int *pipe_fd)
 		if (chdir(argv[1]) == -1)
 			return (ft_other_error(E_OTHER, argv[0]));
 	}
-	else
-		return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
