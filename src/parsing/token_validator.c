@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/04 16:02:43 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:07 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	ft_validation_error(char *str)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
+	ft_putstr_fd("minishell: syntax error near unexpected token ",
+		STDERR_FILENO);
 	ft_putchar_fd('\'', STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("\'\n", STDERR_FILENO);
@@ -57,7 +58,8 @@ int	ft_token_validator(t_token *token_list)
 {
 	while (token_list->next != NULL)
 	{
-		if ((token_list->type == TOKEN_REDIR_IN || token_list->type == TOKEN_REDIR_OUT))
+		if ((token_list->type == TOKEN_REDIR_IN
+				|| token_list->type == TOKEN_REDIR_OUT))
 		{
 			if (ft_redirection_check(token_list) == ERROR_USAGE)
 				return (ERROR_USAGE);

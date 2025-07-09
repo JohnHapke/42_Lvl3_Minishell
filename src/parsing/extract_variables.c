@@ -6,27 +6,18 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:27:53 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/04 13:36:26 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:54:49 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_token	*ft_remove_current_token(t_token **token_list, t_token *current)
+static t_token	*ft_remove_current_token(t_token **token_list)
 {
 	t_token	*temp;
 
-	if (current == NULL)
-		return (NULL);
-	temp = current->next;
-	if (current->prev)
-		current->prev->next = current->next;
-	else
-		*token_list = current->next;
-	if (current->next)
-		current->next->prev = current->prev;
-	free(current->value);
-	free(current);
+	temp = (*token_list)->next;
+	free(*token_list);
 	return (temp);
 }
 
@@ -75,17 +66,9 @@ static void	ft_extract_variable(t_shell *shell, char *token_value)
 
 void	ft_var_extract_handler(t_shell *shell, t_token **token_list)
 {
-	t_token	*current;
-
-	current = *token_list;
-	if (current != NULL)
+	if (*token_list != NULL && (*token_list)->type == TOKEN_WORD && ft_variable_check((*token_list)->value))
 	{
-		if (current->type == TOKEN_WORD && ft_variable_check(current->value))
-		{
-			ft_extract_variable(shell, current->value);
-			current = ft_remove_current_token(token_list, current);
-		}
-		else
-			current = current->next;
+		ft_extract_variable(shell, (*token_list)->value);
+		*token_list = ft_remove_current_token(token_list);
 	}
 }

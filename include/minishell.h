@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/07 15:37:38 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:30:16 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,11 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	t_env *env_list;		// Linked list of environment variables (for builtins)
-	t_env *user_env_list;	// Linked list of user added variables
-	char **env_array;		// Array format for execve (external commands)
-	int exit_status;		// Last exit code ($?)
+	t_env	 *env_list;		// Linked list of environment variables (for builtins)
+	t_env	 *user_env_list;	// Linked list of user added variables
+	char	 **env_array;		// Array format for execve (external commands)
+	int 	exit_status;		// Last exit code ($?)
+	bool	should_exit;
 }			t_shell;
 
 //*  functions   *//
@@ -162,8 +163,9 @@ int		ft_process(t_shell *shell, char **args, int *pipe_fd);
 void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);
-char	*ft_get_cmd_path(char *cmd, char **env);
 
+char	*ft_get_relative_cmd_path(char *cmd);
+char	*ft_get_cmd_path(char *cmd, char **env);
 
 // Builtins
 int		ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd);

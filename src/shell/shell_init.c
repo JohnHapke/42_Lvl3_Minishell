@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 15:08:13 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:44:31 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,13 @@ void	ft_env_add_back(t_env **lst, t_env *new_node)
 	}
 }
 
-void	ft_shell_init(t_shell *shell, char **envp)
+void	ft_init_environment(t_shell *shell, char **envp)
 {
-	int		i;
 	char	*new_key;
 	char	*new_value;
+	int		i;
 
 	i = 0;
-	shell->env_list = NULL;
-	shell->user_env_list = NULL;
-	shell->exit_status = 0;
 	while (envp[i] != NULL)
 	{
 		new_key = ft_substr(envp[i], 0,
@@ -67,4 +64,13 @@ void	ft_shell_init(t_shell *shell, char **envp)
 		i++;
 	}
 	shell->env_array[i] = NULL;
+}
+
+void	ft_shell_init(t_shell *shell, char **envp)
+{
+	shell->env_list = NULL;
+	shell->user_env_list = NULL;
+	shell->exit_status = 0;
+	shell->should_exit = false;
+	ft_init_environment(shell, envp);
 }

@@ -6,13 +6,14 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/04 15:30:47 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:15:25 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_free_return(int exit_code, t_token *token_list, t_command *command_list)
+static int	ft_free_return(int exit_code,
+				t_token *token_list, t_command *command_list)
 {
 	ft_command_lstclear(&command_list);
 	ft_token_lstclear(&token_list);

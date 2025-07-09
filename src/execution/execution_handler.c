@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/04 16:36:58 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:09:52 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_last_command(t_shell *shell, t_command *command)
 static int	ft_restore_stdio_fd(bool restore, int *stdio_fd)
 {
 	int			dup_error; //dup error unused
-	
+
 	dup_error = 1;
 	if (restore == false)
 	{
@@ -92,13 +92,13 @@ int	ft_execution_handler(t_shell *shell, t_command *command)
 		if (pipe(pipe_fd) == -1)
 			return (ft_process_error(E_PIPE));
 		error = ft_builtin_handler(shell, command, pipe_fd);
-		if (error == -2)
+		if (shell->should_exit == true)
 			break ;
 		if (error == -1)
 			error = ft_external_handler(shell, command, pipe_fd);
 		command = command->next;
 	}
-	if (error != -2)
+	if (shell->should_exit == false)
 	{
 		error = ft_builtin_handler(shell, command, stdio_fd);
 		if (error == -1)

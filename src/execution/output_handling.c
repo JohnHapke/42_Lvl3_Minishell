@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/02 17:02:34 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:10:28 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,3 @@ int	ft_output_handler(t_redir *redir, int out)
 	}
 	return (EXIT_SUCCESS);
 }
-
