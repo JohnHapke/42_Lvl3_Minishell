@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/02 17:47:13 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:00:01 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,14 @@ void	ft_expand_variables(t_shell *shell, char **value)
 				var_value = ft_itoa(shell->exit_status);
 			else
 				var_value = ft_list_getenv(var_key, shell->env_list, shell->user_env_list);
-			temp_str = ft_insert_str(*value, var_value,
-					ft_strlen(var_key + 1), &i);
-			free(var_key);
-			free(*value);
-			*value = temp_str;
+			if (var_value)
+			{
+				temp_str = ft_insert_str(*value, var_value,
+						ft_strlen(var_key + 1), &i);
+				free(var_key);
+				free(*value);
+				*value = temp_str;
+			}
 		}
 		i++;
 	}

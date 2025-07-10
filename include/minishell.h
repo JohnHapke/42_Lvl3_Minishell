@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/09 15:30:16 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:36:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,14 @@ void		ft_command_lstclear(t_command **lst);
 t_redir		*ft_new_node_redir(char	*file, t_redir_type type);
 void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 
+void		ft_list_close(void *data);
+
 // Execution
 int		ft_execution_handler(t_shell *shell, t_command *command);
 int		ft_input_handler(t_redir *redir);
 int		ft_output_handler(t_redir *redir, int out);
-int		ft_process(t_shell *shell, char **args, int *pipe_fd);
+int		ft_iofile_error_return(t_list **files, int error, char *arg);
+int		ft_process(t_shell *shell, t_list **open_pids, char **args, int *pipe_fd);
 void	ft_execution(char **args, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);

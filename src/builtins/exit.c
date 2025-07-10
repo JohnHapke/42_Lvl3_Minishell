@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:22 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 16:27:31 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:54:56 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	ft_exit(t_shell *shell, char **argv, int *pipe_fd)
 {
 	int	i;
 
-	(void) argv;
-	(void) shell;
 	i = 0;
 	shell->should_exit = true;
 	write(pipe_fd[1], "exit\n", 5);
@@ -34,7 +32,7 @@ int	ft_exit(t_shell *shell, char **argv, int *pipe_fd)
 			}
 			i++;
 		}
-		return (ft_atoi(argv[1]));
+		return (ft_atoi(argv[1]) % 256);
 	}
 	else
 		return (shell->exit_status);

@@ -6,43 +6,45 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/09 16:09:52 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:39:50 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_last_command(t_shell *shell, t_command *command)
+static int	ft_last_command(t_shell *shell, t_list **open_pids, t_command *command)
 {
-	pid_t	pid;
+	pid_t	*pid;
 	int		error;
 	int		status;
 
 	status = 0;
 	if (command != NULL)
 	{
-		if (ft_input_handler(command->redirs) == 1)
-			return (ERROR_EXIT_FAILURE);
-		error = ft_output_handler(command->redirs, STDOUT_FILENO);
-		if (error != 0)
+		error = ft_input_handler(command->redirs);
+		if (error != EXIT_SUCCESS)
 			return (error);
-		pid = fork();
-		if (pid == -1)
+		error = ft_output_handler(command->redirs, STDOUT_FILENO);
+		if (error != EXIT_SUCCESS)
+			return (error);
+		pid = malloc(sizeof(pid_t));
+		if (!pid)
+			return (ft_other_error(E_MEM, ""));
+		*pid = fork();
+		if (*pid == -1)
+		{
+			free(pid);
 			return (ft_process_error(E_FORK));
-		if (pid == 0)
+		}
+		if (*pid == 0)
 			ft_execution(command->args, shell->env_array);
-		else
-			waitpid(pid, &status, 0);
-		return (ft_control_waitpid_status(status));
+		ft_lstadd_back(open_pids, ft_lstnew(pid));
 	}
 	return (EXIT_SUCCESS);
 }
 
 static int	ft_restore_stdio_fd(bool restore, int *stdio_fd)
 {
-	int			dup_error; //dup error unused
-
-	dup_error = 1;
 	if (restore == false)
 	{
 		stdio_fd[0] = dup(STDIN_FILENO);
@@ -56,54 +58,85 @@ static int	ft_restore_stdio_fd(bool restore, int *stdio_fd)
 		}
 		return (1);
 	}
-	else
+	else //needs error handling
 	{
-		dup_error = dup2(stdio_fd[0], STDIN_FILENO); //need to print error message if fails. also return from execution_handler
-		dup_error = dup2(stdio_fd[1], STDOUT_FILENO);
+		dup2(stdio_fd[0], STDIN_FILENO);
+		dup2(stdio_fd[1], STDOUT_FILENO);
 		close(stdio_fd[1]);
 		close(stdio_fd[0]);
-		return (dup_error);
+		return (1);
 	}
 }
 
-int	ft_external_handler(t_shell *shell, t_command *command, int *pipe_fd)
+int	ft_external_handler(t_shell *shell, t_list **open_pids, t_command *command, int *pipe_fd)
 {
 	int	error;
 
-	if (ft_input_handler(command->redirs) == -1)
-		return (ERROR_EXIT_FAILURE);
-	error = ft_output_handler(command->redirs, STDOUT_FILENO);
-	if (error != 0)
+	error = ft_input_handler(command->redirs);
+	if (error != EXIT_SUCCESS)
 		return (error);
-	error = ft_process(shell, command->args, pipe_fd);
+	error = ft_output_handler(command->redirs, STDOUT_FILENO);
+	if (error != EXIT_SUCCESS)
+		return (error);
+	error = ft_process(shell, open_pids, command->args, pipe_fd);
 	return (error);
+}
+
+int	ft_wait_for_childproc(t_list *open_pids)
+{
+	int		status;
+	pid_t	*pid;
+
+	status = 0;
+	if (open_pids)
+	{
+		while (open_pids)
+		{
+			pid = (pid_t *)(open_pids->content);
+			waitpid(*pid, &status, 0);
+			ft_control_waitpid_status(status);
+			open_pids = open_pids->next;
+		}
+		ft_lstclear(&open_pids, &free);
+		return (ft_control_waitpid_status(status));
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	ft_execution_handler(t_shell *shell, t_command *command)
 {
-	int	stdio_fd[2];
-	int	pipe_fd[2];
-	int	error;
+	t_list	*open_pids;
+	int		stdio_fd[2];
+	int		pipe_fd[2];
+	int		error;
 
 	error = 0;
+	open_pids = NULL;
 	ft_restore_stdio_fd(false, stdio_fd);
 	while (command && command->next)
 	{
 		if (pipe(pipe_fd) == -1)
+		{
+			ft_wait_for_childproc(open_pids);
+			ft_restore_stdio_fd(true, stdio_fd);
 			return (ft_process_error(E_PIPE));
+		}
 		error = ft_builtin_handler(shell, command, pipe_fd);
 		if (shell->should_exit == true)
 			break ;
 		if (error == -1)
-			error = ft_external_handler(shell, command, pipe_fd);
+			error = ft_external_handler(shell, &open_pids, command, pipe_fd);
+		if (error != EXIT_SUCCESS)
+			break;
 		command = command->next;
 	}
-	if (shell->should_exit == false)
+	if (shell->should_exit == false && error == EXIT_SUCCESS)
 	{
 		error = ft_builtin_handler(shell, command, stdio_fd);
 		if (error == -1)
-			error = ft_last_command(shell, command);
+			error = ft_last_command(shell, &open_pids, command);
 	}
+	error = ft_wait_for_childproc(open_pids);
 	ft_restore_stdio_fd(true, stdio_fd);
 	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 15:59:01 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:30:08 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd)
 	func_ptr = ft_is_builtin(command->args);
 	if (func_ptr)
 	{
-		ft_output_handler(command->redirs, pipe_fd[1]);
+		exit_status = ft_input_handler(command->redirs);
+		if (exit_status != EXIT_SUCCESS)
+			return (exit_status);
+		exit_status = ft_output_handler(command->redirs, STDOUT_FILENO);
+		if (exit_status != EXIT_SUCCESS)
+			return (exit_status);
 		exit_status = func_ptr(shell, command->args, pipe_fd);
 		close(pipe_fd[1]);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
