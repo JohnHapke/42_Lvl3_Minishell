@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/10 17:36:09 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:40:52 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,12 +158,11 @@ void		ft_redir_add_back(t_redir **list, t_redir *new_node);
 void		ft_list_close(void *data);
 
 // Execution
-int		ft_execution_handler(t_shell *shell, t_command *command);
+int		ft_execution_handler(t_shell *shell, t_command **command);
 int		ft_input_handler(t_redir *redir);
-int		ft_output_handler(t_redir *redir, int out);
-int		ft_iofile_error_return(t_list **files, int error, char *arg);
-int		ft_process(t_shell *shell, t_list **open_pids, char **args, int *pipe_fd);
-void	ft_execution(char **args, char **env);
+int		ft_output_handler(t_redir *redir);
+int		ft_process(t_shell *shell, t_command *command, int *pipe_fd, t_list **open_pids);
+void	ft_execution(t_command *command, char *cmd_path, char **env);
 void	ft_free(char **path);
 int		ft_control_waitpid_status(int status);
 
@@ -171,14 +170,16 @@ char	*ft_get_relative_cmd_path(char *cmd);
 char	*ft_get_cmd_path(char *cmd, char **env);
 
 // Builtins
-int		ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd);
-int		ft_cd(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_echo(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_env(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_exit(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_export(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_pwd(t_shell *shell, char **argv, int *pipe_fd);
-int		ft_unset(t_shell *shell, char **argv, int *pipe_fd);
+int		ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd, t_list **open_pids);
+int		ft_single_builtin(t_shell *shell, t_command **command);
+int		ft_cd(t_shell *shell, char **argv);
+int		ft_echo(t_shell *shell, char **argv);
+int		ft_env(t_shell *shell, char **argv);
+int		ft_exit(t_shell *shell, char **argv);
+int		ft_export(t_shell *shell, char **argv);
+int		ft_pwd(t_shell *shell, char **argv);
+int		ft_unset(t_shell *shell, char **argv);
+int		(*ft_is_builtin(char **args))(t_shell *shell, char **args);
 
 char	**ft_list_to_strv(t_env *env);
 

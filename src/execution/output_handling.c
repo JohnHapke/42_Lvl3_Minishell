@@ -6,62 +6,56 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/10 17:51:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:40:39 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_list_close(void *data)
+static int	ft_get_ofile(t_redir *redir, int *file_fd, int out)
 {
-	int	*fd;
-
-	fd = (int *)data;
-	if (fd > 0)
-		close(*fd);
-}
-
-static void	ft_get_ofile(t_list **files, t_redir *redir, int *file_fd)
-{
-	if (access(redir->file, W_OK) != 0)
+	if (access(redir->file, F_OK) == 0 && access(redir->file, W_OK) != 0)
 	{
-		*file_fd = -1;
-		ft_other_error(E_ACCESS, redir->file);
+		ft_other_error(E_OTHER, redir->file);
+		return (1);
 	}
-	else if (redir->type == REDIR_OUT)
+	if (redir->type == REDIR_OUT)
 		*file_fd = open(redir->file,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (redir->type == REDIR_APPEND)
 		*file_fd = open(redir->file,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
-	ft_lstadd_back(files, ft_lstnew(file_fd));
+	if (*file_fd == -1)
+	{
+		ft_other_error(E_OPEN, redir->file);
+		return (1);
+	}
+	if (dup2(*file_fd, out) == -1)
+	{
+		ft_other_error(E_OTHER, redir->file);
+		return (1);
+	}
+	return (0);
 }
 
-int	ft_output_handler(t_redir *redir, int out)
+int	ft_output_handler(t_redir *redir)
 {
-	int		*file_fd;
-	t_list	*files;
-	char	*last_filename;
+	int		file_fd;
+	bool	error;
 
-	file_fd = NULL;
-	files = NULL;
+	error = EXIT_SUCCESS;
+	file_fd = -1;
 	while (redir)
 	{
 		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
 		{
-			file_fd = malloc(sizeof (int));
-			if (!file_fd)
-				return (ft_iofile_error_return(&files, E_MEM, NULL));
-			ft_get_ofile(&files, redir, file_fd);
-			last_filename = redir->file;
+			if (ft_get_ofile(redir, &file_fd, STDOUT_FILENO))
+				error = EXIT_FAILURE;
+			close(file_fd);
+			if (error)
+				break ;
 		}
 		redir = redir->next;
 	}
-	if (file_fd != NULL)
-	{
-		if (*file_fd > 0 && dup2(*file_fd, out) == -1)
-			return (ft_iofile_error_return(&files, E_DUP2, last_filename));
-		return (ft_iofile_error_return(&files, EXIT_SUCCESS, NULL));
-	}
-	return (EXIT_SUCCESS);
+	return (error);
 }

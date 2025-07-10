@@ -6,13 +6,13 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 17:30:08 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:44:06 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	(*ft_is_builtin(char **args))(t_shell *shell, char **args, int *pipe_fd)
+int	(*ft_is_builtin(char **args))(t_shell *, char **)
 {
 	if (ft_strlen(args[0]) == 4 && ft_strncmp(args[0], "echo", ft_strlen(args[0])) == 0)
 		return (&ft_echo);
@@ -31,10 +31,37 @@ int	(*ft_is_builtin(char **args))(t_shell *shell, char **args, int *pipe_fd)
 	return (NULL);
 }
 
-int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd)
+void	ft_clean_subshell_exit(int exit_code, t_command *command, t_shell *shell, t_list **open_pids)
 {
+	t_env	*current;
+
+	free(shell->env_array);
+	while (shell->env_list)
+	{
+		free(shell->env_list->key);
+		free(shell->env_list->value);
+		current = shell->env_list->next;
+		free(shell->env_list);
+		shell->env_list = current;
+	}
+	while (shell->user_env_list)
+	{
+		free(shell->user_env_list->key);
+		free(shell->user_env_list->value);
+		current = shell->user_env_list->next;
+		free(shell->user_env_list);
+		shell->user_env_list = current;
+	}
+	ft_lstclear(open_pids, &free);
+	ft_command_lstclear(&command);
+	exit(exit_code);
+}
+
+int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd, t_list **open_pids)
+{
+	pid_t	*pid;
 	int	exit_status;
-	int	(*func_ptr)(t_shell *shell, char **args, int *pipe_fd);
+	int	(*func_ptr)(t_shell *, char **);
 	
 	exit_status = EXIT_FAILURE;
 	if (command->args == NULL || command->args[0] == NULL)
@@ -42,19 +69,61 @@ int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd)
 	func_ptr = ft_is_builtin(command->args);
 	if (func_ptr)
 	{
-		exit_status = ft_input_handler(command->redirs);
-		if (exit_status != EXIT_SUCCESS)
-			return (exit_status);
-		exit_status = ft_output_handler(command->redirs, STDOUT_FILENO);
-		if (exit_status != EXIT_SUCCESS)
-			return (exit_status);
-		exit_status = func_ptr(shell, command->args, pipe_fd);
-		close(pipe_fd[1]);
-		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-			ft_process_error(E_DUP2);
-		close(pipe_fd[0]);
+		pid = malloc(sizeof(pid_t));
+		if (!pid)
+			return (ft_other_error(E_MEM, NULL));
+		*pid = fork();
+		if (*pid == -1)
+			/*fuck*/;
+		if (*pid == 0)
+		{
+			ft_restore_signals();
+			if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+				ft_process_error(E_DUP2);
+			if (command->next)
+			{
+				close(pipe_fd[1]);
+				close(pipe_fd[0]);
+			}
+			exit_status = ft_input_handler(command->redirs);
+			if (exit_status != EXIT_SUCCESS)
+				ft_clean_subshell_exit (exit_status, command, shell, open_pids);
+			exit_status = ft_output_handler(command->redirs);
+			if (exit_status != EXIT_SUCCESS)
+				ft_clean_subshell_exit (exit_status, command, shell, open_pids);
+			exit_status = func_ptr(shell, command->args);
+			ft_clean_subshell_exit (exit_status, command, shell, open_pids);
+		}
+		else
+		{
+			ft_lstadd_back(open_pids, ft_lstnew(pid));
+			if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+				ft_process_error(E_DUP2);
+			if (command->next)
+			{
+				close(pipe_fd[1]);
+				close(pipe_fd[0]);
+			}
+		}
 	}
 	else
 		return (-1);
-	return (exit_status);
+	return (EXIT_SUCCESS);
+}
+
+int	ft_single_builtin(t_shell *shell, t_command **command)
+{
+   	int (*func_ptr)(t_shell *, char **);
+   	int stdio_fd[2];
+   	int status;
+
+	stdio_fd[0] = STDIN_FILENO;
+	stdio_fd[1] = STDOUT_FILENO;
+	func_ptr = ft_is_builtin((*command)->args);
+    status = ft_input_handler((*command)->redirs);
+    if (status == EXIT_SUCCESS)
+        status = ft_output_handler((*command)->redirs);
+    if (status == EXIT_SUCCESS)
+        status = func_ptr(shell, (*command)->args);
+    return (status);
 }

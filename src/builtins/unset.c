@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:29 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/07 15:36:55 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:37:35 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ bool	ft_remove_key(t_shell *shell, char *key)
 	return (false);
 }
 
-int	ft_unset(t_shell *shell, char **argv, int *pipe_fd)
+int	ft_unset(t_shell *shell, char **argv)
 {
 	char	**new_env;
 	int		i;
 	bool	realloc;
 
-	(void) pipe_fd;
 	(void) argv;
 	i = 1;
 	realloc = false;
