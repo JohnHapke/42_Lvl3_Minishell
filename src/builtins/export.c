@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:24 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 22:37:17 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 13:47:28 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_export_error_message(char *identifier)
 
 int	ft_export(t_shell *shell, char **argv)
 {
-	int		i;
+	/*int		i;
 	char	new_env;
 	t_env	*node;
 
@@ -37,6 +37,6 @@ int	ft_export(t_shell *shell, char **argv)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	new_env = ft_list_to_strv(shell->env_list);
+	new_env = ft_list_to_strv(shell->env_list);*/
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 22:44:06 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:18:27 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,13 @@ int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd, t_list 
 		*pid = fork();
 		if (*pid == -1)
 			/*fuck*/;
-		if (*pid == 0)
+		else if (*pid == 0)
 		{
 			ft_restore_signals();
 			if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 				ft_process_error(E_DUP2);
-			if (command->next)
-			{
-				close(pipe_fd[1]);
-				close(pipe_fd[0]);
-			}
+			close(pipe_fd[1]);
+			close(pipe_fd[0]);
 			exit_status = ft_input_handler(command->redirs);
 			if (exit_status != EXIT_SUCCESS)
 				ft_clean_subshell_exit (exit_status, command, shell, open_pids);

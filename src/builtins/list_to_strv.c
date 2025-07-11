@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:36:34 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/07 15:37:26 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:12:31 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	**ft_list_to_strv(t_env *env)
 	char	**strv;
 
 	i = 0;
+	if (!env)
+		return (NULL);
 	strv = malloc((ft_envsize(env) + 1) * sizeof(char *));
 	if (!strv)
 		return (NULL);

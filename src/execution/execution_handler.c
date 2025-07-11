@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/10 22:46:45 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:16:32 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,42 +68,48 @@ static int	ft_restore_stdio_fd(bool restore, int *stdio_fd)
 	}
 }
 
-int	ft_wait_for_childproc(t_list *open_pids)
+void	ft_wait_for_childproc(t_list *open_pids, int *exit_status)
 {
+	t_list	*current;
 	int		status;
 	pid_t	*pid;
 
 	status = 0;
+	current = open_pids;
 	if (open_pids)
 	{
-		while (open_pids)
+		while (current)
 		{
-			pid = (pid_t *)(open_pids->content);
+			pid = (pid_t *)(current->content);
 			waitpid(*pid, &status, 0);
 			ft_control_waitpid_status(status);
-			open_pids = open_pids->next;
+			current = current->next;
 		}
+		if (!*exit_status)
+			*exit_status = ft_control_waitpid_status(status);
 		ft_lstclear(&open_pids, &free);
-		return (ft_control_waitpid_status(status));
 	}
-	return (EXIT_SUCCESS);
+	return ;
 }
 
 void	ft_remove_command_node(t_command **command)
 {
-	t_command	*cmd_current;
-	t_redir		*red_current;
+	t_command	*cmd_temp;
+	t_redir		*red_temp;
 
-	cmd_current = (*command)->next;
+	if (!command || !*command)
+		return ;
+	cmd_temp = (*command)->next;
 	while ((*command)->redirs)
 	{
 		free((*command)->redirs->file);
-		red_current = (*command)->redirs->next;
+		red_temp = (*command)->redirs->next;
 		free((*command)->redirs);
-		(*command)->redirs = red_current;
+		(*command)->redirs = red_temp;
 	}
+	ft_free_all((*command)->args);
 	free(*command);
-	*command = cmd_current;
+	*command = cmd_temp;
 }
 
 int	ft_begin_pipeline(t_shell *shell, t_command **command, int *stdio_fd)
@@ -118,7 +124,7 @@ int	ft_begin_pipeline(t_shell *shell, t_command **command, int *stdio_fd)
 	{
 		if (pipe(pipe_fd) == -1)
 		{
-			ft_wait_for_childproc(open_pids);
+			ft_wait_for_childproc(open_pids, &error);
 			ft_restore_stdio_fd(true, stdio_fd);
 			return (ft_process_error(E_PIPE));
 		}
@@ -138,7 +144,7 @@ int	ft_begin_pipeline(t_shell *shell, t_command **command, int *stdio_fd)
 			error = ft_last_command(shell, &open_pids, *command);
 		ft_remove_command_node(command);
 	}
-	error = ft_wait_for_childproc(open_pids);
+	ft_wait_for_childproc(open_pids, &error);
 	return (error);
 }
 
@@ -155,9 +161,7 @@ int	ft_execution_handler(t_shell *shell, t_command **command)
 		ft_remove_command_node(command);
 	}
 	else
-	{
 		last_exit_status = ft_begin_pipeline(shell, command, stdio_fd);
-	}
 	ft_restore_stdio_fd(true, stdio_fd);
 	return (last_exit_status);
 }
