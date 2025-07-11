@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 14:16:32 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:24:26 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,26 @@ static int	ft_last_command(t_shell *shell, t_list **open_pids, t_command *comman
 	cmd_path = ft_get_cmd_path(command->args[0], shell->env_array);
 	if (!cmd_path)
 		return (ft_command_error(E_CMD, command->args[0]));
-	if (command != NULL)
+	if (access(cmd_path, X_OK) != 0)
 	{
-		pid = malloc(sizeof(pid_t));
-		if (!pid)
-			return (ft_other_error(E_MEM, ""));
-		*pid = fork();
-		if (*pid == -1)
-		{
-			free(pid);
-			return (ft_process_error(E_FORK));
-		}
-		if (*pid == 0)
-		{
-			ft_execution(command, cmd_path, shell->env_array);
-		}
 		free(cmd_path);
-		ft_lstadd_back(open_pids, ft_lstnew(pid));
+		return (ft_command_error(E_PERMISSION, command->args[0]));
 	}
+	pid = malloc(sizeof(pid_t));
+	if (!pid)
+		return (ft_other_error(E_MEM, ""));
+	*pid = fork();
+	if (*pid == -1)
+	{
+		free(pid);
+		return (ft_process_error(E_FORK));
+	}
+	if (*pid == 0)
+	{
+		ft_execution(command, cmd_path, shell->env_array);
+	}
+	free(cmd_path);
+	ft_lstadd_back(open_pids, ft_lstnew(pid));
 	return (EXIT_SUCCESS);
 }
 
@@ -157,7 +159,7 @@ int	ft_execution_handler(t_shell *shell, t_command **command)
 	ft_restore_stdio_fd(false, stdio_fd);
 	if (!(*command)->next && ft_is_builtin((*command)->args))
 	{
-		ft_single_builtin(shell, command);
+		last_exit_status = ft_single_builtin(shell, command);
 		ft_remove_command_node(command);
 	}
 	else

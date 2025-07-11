@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:58:42 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/01 15:33:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:54:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_command_error(t_exec_error error, char *cmd)
 	{
 		ft_putstr_fd("./minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": PERMISSION DENIED\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		return (ERROR_CMD_NOT_EXECUTABLE);
 	}
 	return (EXIT_SUCCESS);

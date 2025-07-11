@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/10 16:00:01 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:58:02 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ void	ft_expand_variables(t_shell *shell, char **value)
 	}
 }
 
+/*void ft_insert_token(t_token *current, t_token *new_token)
+{
+	if (!current || !new_token)
+		return;
+	new_token->prev = current;
+	new_token->next = current->next;
+	if (current->next)
+		current->next->prev = new_token;
+	current->next = new_token;
+}*/
+
 int	ft_expansion_handler(t_shell *shell, t_token **token_list)
 {
 	char	*temp;
@@ -83,6 +94,7 @@ int	ft_expansion_handler(t_shell *shell, t_token **token_list)
 	while (current)
 	{
 		ft_expand_variables(shell, &current->value);
+		//ft_split_words(token_list, current);
 		temp = current->value;
 		current->value = ft_get_unquoted_str(current->value);
 		free(temp);

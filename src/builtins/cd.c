@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:35 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 22:36:45 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:16:46 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_cd(t_shell *shell, char **argv)
 
 	home = NULL;
 	if (argv[1] != NULL && argv[2] != NULL)
-		return (ft_other_error(E_OTHER, argv[0]));
+		return (ft_builtin_error(1, "cd", NULL, "too many arguments"));
 	else if (argv[1] == NULL)
 	{
 		i = -1;
@@ -34,17 +34,14 @@ int	ft_cd(t_shell *shell, char **argv)
 			}
 		}
 		if (home == NULL)
-		{
-			ft_putstr_fd("minishell: HOME not set", 2);
-			return (EXIT_FAILURE);
-		}
+			return (ft_builtin_error(1, "cd", NULL, "HOME not set"));
 		if (chdir(home) == -1)
 			return (ft_other_error(E_OTHER, argv[0]));
 	}
 	else if (argv[1] != NULL)
 	{
 		if (chdir(argv[1]) == -1)
-			return (ft_other_error(E_OTHER, argv[0]));
+			return (ft_other_error(E_OTHER, "cd"));
 	}
 	return (EXIT_SUCCESS);
 }

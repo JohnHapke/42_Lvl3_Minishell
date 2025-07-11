@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:45:28 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 16:10:46 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:55:09 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*ft_get_command(char *cmd, char **env)
 		sub_path = ft_strjoin(path[i], "/");
 		cmd_path = ft_strjoin(sub_path, cmd);
 		free(sub_path);
-		if (access(cmd_path, X_OK) == 0)
+		if (access(cmd_path, F_OK) == 0)
 		{
 			ft_free(path);
 			return (cmd_path);
@@ -67,7 +67,7 @@ char	*ft_get_cmd_path(char *cmd, char **env)
 		path = ft_get_relative_cmd_path(cmd);
 	else if (cmd[0] == '/')
 	{
-		if (access(cmd, X_OK) == 0)
+		if (access(cmd, F_OK) == 0)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}

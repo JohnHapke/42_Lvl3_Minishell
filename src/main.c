@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:01:15 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 16:12:55 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:45:54 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_signals();
 	ft_shell_loop(&shell);
 	ft_cleanup_shell(&shell);
+	rl_clear_history();
 	return (shell.exit_status);
 }

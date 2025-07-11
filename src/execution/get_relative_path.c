@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:17:13 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 15:23:36 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:55:02 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_get_relative_cmd_path(char *cmd)
 	free(cmd_name);
 	free(sub_path);
 	ft_free(paths);
-	if (access(full_path, X_OK) == 0)
+	if (access(full_path, F_OK) == 0)
 		return (full_path);
 	return (NULL);
 }

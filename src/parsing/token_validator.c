@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/09 16:12:07 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:41:14 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static int	ft_pipe_check(t_token *token)
 
 int	ft_token_validator(t_token *token_list)
 {
+	if (token_list == NULL)
+		return (EXIT_SUCCESS);
 	while (token_list->next != NULL)
 	{
 		if ((token_list->type == TOKEN_REDIR_IN
