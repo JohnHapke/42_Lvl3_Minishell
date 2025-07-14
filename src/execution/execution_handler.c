@@ -6,13 +6,14 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 17:24:26 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:52:41 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_last_command(t_shell *shell, t_list **open_pids, t_command *command)
+static int	ft_last_command(t_shell *shell, t_list **open_pids,
+				t_command *command)
 {
 	char	*cmd_path;
 	pid_t	*pid;
@@ -37,9 +38,7 @@ static int	ft_last_command(t_shell *shell, t_list **open_pids, t_command *comman
 		return (ft_process_error(E_FORK));
 	}
 	if (*pid == 0)
-	{
 		ft_execution(command, cmd_path, shell->env_array);
-	}
 	free(cmd_path);
 	ft_lstadd_back(open_pids, ft_lstnew(pid));
 	return (EXIT_SUCCESS);

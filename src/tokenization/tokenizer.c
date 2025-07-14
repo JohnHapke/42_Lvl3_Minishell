@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/04 16:27:18 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:45:03 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	ft_token_handler(t_shell *shell, t_token **token_list, char *line)
 		else
 		{
 			token_type = ft_get_token_type(line[i]);
-			new_node = ft_token_new_node(ft_get_token_value(line, &i, token_type), token_type);
+			new_node = ft_token_new_node
+				(ft_get_token_value(line, &i, token_type), token_type);
 			if (!new_node)
 				ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
 			ft_token_add_back(token_list, new_node);

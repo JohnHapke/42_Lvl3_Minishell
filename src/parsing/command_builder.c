@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/04 14:28:21 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:47:53 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_redir_type	ft_get_redir_type(char	*value)
 		return (REDIR_APPEND);
 }
 
-static void	ft_fill_command_node(t_shell *shell, t_token **token_list, t_command *command)
+static void	ft_fill_command_node(t_shell *shell, t_token **token_list,
+				t_command *command)
 {
 	int	i;
 
@@ -53,7 +54,8 @@ static void	ft_fill_command_node(t_shell *shell, t_token **token_list, t_command
 	command->args[i + 1] = NULL;
 }
 
-void	ft_command_handler(t_shell *shell, t_token *token_list, t_command **command)
+void	ft_command_handler(t_shell *shell, t_token *token_list,
+			t_command **command)
 {
 	t_command	*new_node;
 

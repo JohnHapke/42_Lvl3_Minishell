@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 16:55:41 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:48:39 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	ft_control_waitpid_status(int status)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_process(t_shell *shell, t_command *command, int *pipe_fd, t_list **open_pids)
+int	ft_process(t_shell *shell, t_command *command, int *pipe_fd,
+		t_list **open_pids)
 {
 	char	*cmd_path;
 	pid_t	*pid;

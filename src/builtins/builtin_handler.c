@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 15:53:06 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:19:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ int	ft_builtin_handler(t_shell *shell, t_command *command, int *pipe_fd, t_list 
 				ft_process_error(E_DUP2);
 			close(pipe_fd[1]);
 			close(pipe_fd[0]);
-			exit_status = ft_input_handler(command->redirs);
-			if (exit_status != EXIT_SUCCESS)
-				ft_clean_subshell_exit (exit_status, command, shell, open_pids);
-			exit_status = ft_output_handler(command->redirs);
+			exit_status = ft_redirect_handler(command->redirs);
 			if (exit_status != EXIT_SUCCESS)
 				ft_clean_subshell_exit (exit_status, command, shell, open_pids);
 			exit_status = func_ptr(shell, command->args);
@@ -133,9 +130,7 @@ int	ft_single_builtin(t_shell *shell, t_command **command)
 	stdio_fd[0] = STDIN_FILENO;
 	stdio_fd[1] = STDOUT_FILENO;
 	func_ptr = ft_is_builtin((*command)->args);
-    status = ft_input_handler((*command)->redirs);
-    if (status == EXIT_SUCCESS)
-        status = ft_output_handler((*command)->redirs);
+    status = ft_redirect_handler((*command)->redirs);
     if (status == EXIT_SUCCESS)
         status = func_ptr(shell, (*command)->args);
     return (status);

@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 17:41:14 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:45:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	ft_pipe_check(t_token *token)
 		return (ft_validation_error(token->value));
 	if (token->next->type == TOKEN_PIPE)
 		return (ft_validation_error("|"));
-	if(token->prev == NULL || token->prev->type != TOKEN_WORD)
+	if (token->prev == NULL || token->prev->type != TOKEN_WORD)
 		return (ft_validation_error("|"));
 	return (EXIT_SUCCESS);
 }
