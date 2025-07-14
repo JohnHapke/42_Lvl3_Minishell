@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_to_strv.c                                     :+:      :+:    :+:   */
+/*   env_helpers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:36:34 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/11 14:12:31 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:48:34 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,34 @@ char	**ft_list_to_strv(t_env *env)
 	}
 	strv[i] = NULL;
 	return (strv);
+}
+
+void	ft_extract_node(t_env **list, t_env *remove)
+{
+	t_env	*current;
+	t_env	*prev;
+
+	if (!list || !*list || !remove)
+		return ;
+	current = *list;
+	prev = NULL;
+	if (current == remove)
+	{
+		*list = current->next;
+		free(remove->key);
+		free(remove->value);
+		free(remove);
+		return ;
+	}
+	while (current && current != remove)
+	{
+		prev = current;
+		current = current->next;
+	}
+	if (!current)
+		return ;
+	prev->next = current->next;
+	free(remove->key);
+	free(remove->value);
+	free(remove);
 }

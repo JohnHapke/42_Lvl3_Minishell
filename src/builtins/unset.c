@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:29 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 22:37:35 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:01:45 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	ft_remove_key(t_shell *shell, char *key)
 				prev->next = current->next;
 			else
 				shell->env_list = shell->env_list->next;
+			free(current);
 			return (true);
 		}
 		prev = current;
@@ -54,6 +55,7 @@ int	ft_unset(t_shell *shell, char **argv)
 	}
 	if (realloc)
 	{
+		ft_free_all(shell->env_array);
 		new_env = ft_list_to_strv(shell->env_list);
 		shell->env_array = new_env;	
 	}

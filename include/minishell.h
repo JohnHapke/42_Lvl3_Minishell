@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 17:15:53 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:53:10 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int		ft_unset(t_shell *shell, char **argv);
 int		(*ft_is_builtin(char **args))(t_shell *shell, char **args);
 int		ft_builtin_error(int code, char *cmd, char *optional, char *messsage);
 
+void	ft_extract_node(t_env **list, t_env *remove);
 char	**ft_list_to_strv(t_env *env);
 
 // Signals

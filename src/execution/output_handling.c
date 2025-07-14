@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/10 22:40:39 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:05:54 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ int	ft_output_handler(t_redir *redir)
 	int		file_fd;
 	bool	error;
 
-	error = EXIT_SUCCESS;
+	error = false;
 	file_fd = -1;
 	while (redir)
 	{
 		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
 		{
 			if (ft_get_ofile(redir, &file_fd, STDOUT_FILENO))
-				error = EXIT_FAILURE;
+				error = true;
 			close(file_fd);
 			if (error)
-				break ;
+				return (true);
 		}
 		redir = redir->next;
 	}

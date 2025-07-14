@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:35 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/11 17:16:46 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:03:51 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,10 @@ int	ft_cd(t_shell *shell, char **argv)
 	else if (argv[1] == NULL)
 	{
 		i = -1;
-		while (shell->env_array[++i] != NULL)
+		while (shell->env_array[++i] != NULL && home == NULL)
 		{
 			if (ft_strncmp(shell->env_array[i], "HOME=", 5) == 0)
-			{
 				home = shell->env_array[i] + 5;
-				break ;
-			}
 		}
 		if (home == NULL)
 			return (ft_builtin_error(1, "cd", NULL, "HOME not set"));

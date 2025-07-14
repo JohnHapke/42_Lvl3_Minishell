@@ -3,101 +3,141 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:24 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 09:10:09 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/07/14 19:00:58 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/* functional use case:
+/*
+	functional use case:
 1.	minishell$ export
 
 2.	minishell$ VAR=hello
 	minishell$ export VAR
 
-not implemented:
-1.	minishell$ export HELLO=hello
+3.	minishell$ export HELLO=hello
 	minishell$ env | grep HELLO
+	.. now functional
 
-2. error handling
+4. error handling
+	Still needs to be checked, looks good so far.
 */
 
-
-
-/* Only used when variable key is invalid: e.g. "//varkey" is invalid due to characters */
-/*static int	ft_export_error_message(char *identifier)
-{
-	ft_putstr_fd("Export: ", STDERR_FILENO);
-	ft_putstr_fd(identifier, STDERR_FILENO);
-	ft_putstr_fd(": is not a valid identifier", STDERR_FILENO);
-	return (EXIT_FAILURE);
-}*/
-/*static void	ft_envus_lstclear(t_env **lst)
-{
-	t_env	*temp;
-
-	if (!*lst)
-		return ;
-	while (*lst != NULL)
-	{
-		temp = (*lst)->next;
-		free((*lst)->key);
-		free((*lst)->value);
-		free((*lst));
-		*lst = temp;
-	}
-	*lst = NULL;
-}*/
-
-static int	ft_find_equal_sign(char	*var)
+bool	ft_isinvalid_key(char *s, char delim)
 {
 	int	i;
 
-	i = 0;
-	while (var[i] != '\0')
-	{
-		if (var[i] == '=')
-			return (i);
+	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
+		return (true);
+	i = 1;
+	while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 		i++;
+	if (s[i] != delim)
+		return (true);
+	return (false);
+}
+
+t_env	*ft_export_equal(t_shell *shell, char *arg, char *equal_sign)
+{
+	char	*new_key;
+	char	*new_value;
+	t_env	*found_node;
+
+	new_key = ft_substr(arg, 0, equal_sign - arg);
+	if (!new_key)
+		return (NULL);
+	new_value = ft_substr(equal_sign, 1, ft_strlen(equal_sign + 1));
+	if (!new_value)
+	{
+		free(new_key);
+		return (NULL);
 	}
-	return (-1);
+	found_node = ft_find_env_node(new_key, shell->env_list, NULL);
+	if (found_node)
+	{
+		free(found_node->value);
+		found_node->value = new_value;
+		free(new_key);
+	}
+	else
+		ft_env_add_back(&shell->env_list, ft_env_new_node(new_key, new_value));
+	found_node = ft_find_env_node(arg, NULL, shell->user_env_list);
+	return (found_node);
+}
+
+t_env	*ft_export_noequal(t_shell *shell, char *arg)
+{
+	t_env	*user_node;
+	t_env	*env_node;
+
+	user_node = ft_find_env_node(arg, NULL, shell->user_env_list);
+	if (!user_node)
+		return (NULL);
+	env_node = ft_find_env_node(arg, shell->env_list, NULL);
+	if (env_node)
+	{
+		free(env_node->value);
+		env_node->value = ft_strdup(user_node->value);
+		if (!env_node->value)
+		{
+			ft_other_error(E_MEM, NULL);
+			return (NULL);
+		}
+	}
+	else
+	{
+		ft_env_add_back(&shell->env_list, ft_env_new_node(
+			ft_strdup(user_node->key), ft_strdup(user_node->value)));
+	}
+	return (user_node);
+}
+
+int	ft_export_single(t_shell *shell, char *arg)
+{
+	char	*equal_sign;
+	t_env	*found_node;
+
+	equal_sign = ft_strchr(arg, '=');
+	if ((equal_sign && ft_isinvalid_key(arg, '='))
+		|| (!equal_sign && ft_isinvalid_key(arg, '\0')))
+		return (ft_builtin_error(1, "export", arg, "not a valid identifier"));	
+	if (equal_sign)
+		found_node = ft_export_equal(shell, arg, equal_sign);
+	else
+		found_node = ft_export_noequal(shell, arg);
+	if (found_node)
+		ft_extract_node(&shell->user_env_list, found_node);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_shell *shell, char **argv)
 {
-	t_env	*current_user_env;
-	char	*str;
-	int		equal_sign;
+	int		i;
+	int		exit_code;
+	char	**new_env;
 
 	if (!argv[1])
 		return (ft_env(shell, argv));
-	current_user_env = shell->user_env_list;
-	equal_sign = ft_find_equal_sign(argv[1]);
-	str = NULL;
-	if (argv[1])
+	i = 1;
+	exit_code = EXIT_SUCCESS;
+	while (argv[i])
 	{
-		while (current_user_env != NULL)
-		{
-			str = ft_strdup(current_user_env->key);
-			if (equal_sign > -1)
-			{
-				str = ft_strjoin(str, "=");
-				str = ft_strjoin(str, current_user_env->value);
-			}
-			if (ft_strncmp(str, argv[1], ft_strlen(str)) == 0 && ft_strlen(str))
-			{
-				ft_env_add_back(&shell->env_list, ft_env_new_node(current_user_env->key, current_user_env->value));
-				//ft_envus_lstclear(&current_user_env);
-				ft_env(shell, argv);
-				free (str);
-				return (EXIT_SUCCESS);
-			}
-			free (str);
-			current_user_env= current_user_env->next;
-		}
+		exit_code += ft_export_single(shell, argv[i]);
+		i++;
 	}
-	return (EXIT_FAILURE);
+	if (i > 1)
+	{
+		ft_free_all(shell->env_array);
+		new_env = ft_list_to_strv(shell->env_list);
+		if (!new_env)
+			exit_code = ft_other_error(E_MEM, NULL);
+		shell->env_array = new_env;
+	}
+	if (exit_code)
+		exit_code = 1;
+	return (exit_code);
 }

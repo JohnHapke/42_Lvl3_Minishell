@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 08:41:19 by jhapke           ###   ########.fr       */
+/*   Updated: 2025/07/14 15:53:06 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ int	ft_builtin_error(int code, char *cmd, char *optional, char *message)
 	ft_putstr_fd(": ", 2);
 	if (optional)
 	{
+		ft_putchar_fd('\'', 2);
 		ft_putstr_fd(optional, 2);
+		ft_putchar_fd('\'', 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
+	ft_putendl_fd(message, 2);
 	return (code);
 }
 
