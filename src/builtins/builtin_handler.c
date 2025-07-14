@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jhapke <jhapke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/11 17:23:18 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/14 08:41:19 by jhapke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_builtin_error(int code, char *cmd, char *optional, char *messsage)
+int	ft_builtin_error(int code, char *cmd, char *optional, char *message)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
@@ -22,7 +22,7 @@ int	ft_builtin_error(int code, char *cmd, char *optional, char *messsage)
 		ft_putstr_fd(optional, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putstr_fd(messsage, 2);
+	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 	return (code);
 }
@@ -35,7 +35,7 @@ int	(*ft_is_builtin(char **args))(t_shell *, char **)
 		return (&ft_cd);
 	else if (ft_strlen(args[0]) == 3 && ft_strncmp(args[0], "pwd", ft_strlen(args[0])) == 0)
 		return (&ft_pwd);
-	else if (ft_strlen(args[0]) == 7 && ft_strncmp(args[0], "export", ft_strlen(args[0])) == 0)
+	else if (ft_strlen(args[0]) == 6 && ft_strncmp(args[0], "export", ft_strlen(args[0])) == 0)
 		return (&ft_export);
 	else if (ft_strlen(args[0]) == 5 && ft_strncmp(args[0], "unset", ft_strlen(args[0])) == 0)
 		return (&ft_unset);
