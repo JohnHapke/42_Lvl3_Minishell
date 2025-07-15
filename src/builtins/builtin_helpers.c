@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_helpers.c                                      :+:      :+:    :+:   */
+/*   builtin_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:36:34 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 18:48:34 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:54:23 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ char	**ft_list_to_strv(t_env *env)
 	return (strv);
 }
 
+void	ft_delnode(t_env *node)
+{
+	free(node->key);
+	free(node->value);
+	free(node);
+}
+
 void	ft_extract_node(t_env **list, t_env *remove)
 {
 	t_env	*current;
@@ -65,9 +72,7 @@ void	ft_extract_node(t_env **list, t_env *remove)
 	if (current == remove)
 	{
 		*list = current->next;
-		free(remove->key);
-		free(remove->value);
-		free(remove);
+		ft_delnode(remove);
 		return ;
 	}
 	while (current && current != remove)
@@ -78,7 +83,21 @@ void	ft_extract_node(t_env **list, t_env *remove)
 	if (!current)
 		return ;
 	prev->next = current->next;
-	free(remove->key);
-	free(remove->value);
-	free(remove);
+	ft_delnode(remove);
+}
+
+int	ft_builtin_error(int code, char *cmd, char *optional, char *message)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	if (optional)
+	{
+		ft_putchar_fd('\'', 2);
+		ft_putstr_fd(optional, 2);
+		ft_putchar_fd('\'', 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putendl_fd(message, 2);
+	return (code);
 }

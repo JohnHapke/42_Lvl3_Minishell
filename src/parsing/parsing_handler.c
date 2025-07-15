@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 20:46:49 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:18:55 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ int	ft_parsing_handler(t_shell *shell, char *line)
 
 	command_list = NULL;
 	token_list = NULL;
+	if (g_signal)
+	{
+		shell->exit_status = g_signal;
+		g_signal = 0;
+	}
 	ft_token_handler(shell, &token_list, line);
 	free(line);
 	if (ft_token_validator(token_list) == ERROR_USAGE)

@@ -6,13 +6,11 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:35 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 17:03:51 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:29:21 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// behavior should be correct. pipe_fd is not needed because builtin just changes directories and gives no output.
 
 int	ft_cd(t_shell *shell, char **argv)
 {

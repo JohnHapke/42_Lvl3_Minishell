@@ -6,11 +6,35 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 17:41:47 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:13:11 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../get_next_line/get_next_line.h"
+
+char	*ft_read_input(void)
+{
+	char	*input;
+	char	*temp;
+
+	input = NULL;
+	if (isatty(STDIN_FILENO))
+		input = readline("minishell$ ");
+	else
+	{
+		input = ft_get_next_line(STDIN_FILENO);
+		if (input)
+		{
+			temp = ft_strtrim(input, "\n");
+			if (!temp)
+				ft_other_error(E_MEM, NULL);
+			free(input);
+			input = temp;
+		}
+	}
+	return (input);
+}
 
 void	ft_shell_loop(t_shell *shell)
 {
@@ -18,7 +42,7 @@ void	ft_shell_loop(t_shell *shell)
 
 	while (1)
 	{
-		line = readline("minishell$ ");
+		line = ft_read_input();
 		if (line == NULL)
 			break ;
 		if (line[0] != '\0')

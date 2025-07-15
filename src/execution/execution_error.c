@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:58:42 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/11 16:54:09 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:36:40 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	ft_command_error(t_exec_error error, char *cmd)
 	if (error == E_CMD)
 	{
 		ft_putstr_fd("./minishell: command not found: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd("\n", 2);
+		if (cmd)
+			ft_putendl_fd(cmd, 2);
+		else
+			ft_putstr_fd("\n", 2);
 		return (ERROR_CMD_NOT_FOUND);
 	}
 	else if (error == E_PERMISSION)
@@ -51,13 +53,12 @@ int	ft_other_error(t_exec_error error, char *arg)
 		ft_putstr_fd("./minishell: ", 2);
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		return (ERROR_EXIT_FAILURE);
 	}
 	else if (error == E_MEM)
 	{
-		ft_putstr_fd("./minishell: cannot allocate memory\n", 2);
+		ft_putstr_fd("./minishell: failed to allocate memory\n", 2);
 		return (ERROR_MEMORY_ALLOC);
 	}
 	return (EXIT_SUCCESS);

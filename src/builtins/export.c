@@ -6,26 +6,11 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:24 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 19:00:58 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:04:03 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*
-	functional use case:
-1.	minishell$ export
-
-2.	minishell$ VAR=hello
-	minishell$ export VAR
-
-3.	minishell$ export HELLO=hello
-	minishell$ env | grep HELLO
-	.. now functional
-
-4. error handling
-	Still needs to be checked, looks good so far.
-*/
 
 bool	ft_isinvalid_key(char *s, char delim)
 {
@@ -91,7 +76,7 @@ t_env	*ft_export_noequal(t_shell *shell, char *arg)
 	else
 	{
 		ft_env_add_back(&shell->env_list, ft_env_new_node(
-			ft_strdup(user_node->key), ft_strdup(user_node->value)));
+				ft_strdup(user_node->key), ft_strdup(user_node->value)));
 	}
 	return (user_node);
 }
@@ -104,7 +89,7 @@ int	ft_export_single(t_shell *shell, char *arg)
 	equal_sign = ft_strchr(arg, '=');
 	if ((equal_sign && ft_isinvalid_key(arg, '='))
 		|| (!equal_sign && ft_isinvalid_key(arg, '\0')))
-		return (ft_builtin_error(1, "export", arg, "not a valid identifier"));	
+		return (ft_builtin_error(1, "export", arg, "not a valid identifier"));
 	if (equal_sign)
 		found_node = ft_export_equal(shell, arg, equal_sign);
 	else

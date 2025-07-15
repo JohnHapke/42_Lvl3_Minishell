@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:51:42 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:49:25 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,32 @@ char	*ft_get_var_key(char *str)
 	return (key);
 }
 
-void	ft_expand_variables(t_shell *shell, char **value)
+static void	ft_get_expanded(t_shell *shell, char **value, int i)
 {
-	int		i;
-	char	*temp_str;
 	char	*var_key;
 	char	*var_value;
+	char	*temp_str;
+
+	var_key = ft_get_var_key((*value) + i + 1);
+	if (ft_strncmp(var_key, "?", ft_strlen(var_key)) == 0
+		&& ft_strlen(var_key))
+		var_value = ft_itoa(shell->exit_status);
+	else
+		var_value = ft_list_getenv(var_key, shell->env_list,
+				shell->user_env_list);
+	if (var_value)
+	{
+		temp_str = ft_insert_str(*value, var_value,
+				ft_strlen(var_key + 1), &i);
+		free(var_key);
+		free(*value);
+		*value = temp_str;
+	}
+}
+
+static void	ft_expand_variables(t_shell *shell, char **value)
+{
+	int		i;
 	bool	is_in_quote;
 
 	i = 0;
@@ -54,23 +74,7 @@ void	ft_expand_variables(t_shell *shell, char **value)
 		if ((*value)[i] == '\'')
 			is_in_quote = !is_in_quote;
 		if ((*value)[i] == '$' && is_in_quote == false)
-		{
-			var_key = ft_get_var_key(&(*value)[i + 1]);
-			if (ft_strncmp(var_key, "?", ft_strlen(var_key)) == 0
-				&& ft_strlen(var_key))
-				var_value = ft_itoa(shell->exit_status);
-			else
-				var_value = ft_list_getenv(var_key, shell->env_list,
-						shell->user_env_list);
-			if (var_value)
-			{
-				temp_str = ft_insert_str(*value, var_value,
-						ft_strlen(var_key + 1), &i);
-				free(var_key);
-				free(*value);
-				*value = temp_str;
-			}
-		}
+			ft_get_expanded(shell, value, i);
 		i++;
 	}
 }

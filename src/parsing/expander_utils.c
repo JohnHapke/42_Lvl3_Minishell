@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:52:17 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:01:13 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_unquoted_str(char *str)
 	int		i;
 	char	quote_type;
 
-	unquoted = malloc((ft_count_unquoted_char(str) + 1) * sizeof(char));
+	unquoted = ft_calloc((ft_count_unquoted_char(str) + 1), sizeof(char));
 	if (!unquoted)
 		return (NULL);
 	i = -1;
@@ -74,7 +74,8 @@ char	*ft_get_unquoted_str(char *str)
 			str++;
 			while (*str != quote_type && *str != '\0')
 				unquoted[++i] = *(str++);
-			str++;
+			if (*str)
+				str++;
 		}
 		else
 			unquoted[++i] = *(str++);
@@ -96,7 +97,7 @@ char	*ft_list_getenv(char *var_key, t_env *env_list, t_env *user_env_list)
 	{
 		if (ft_strlen(user_env_list->key) == ft_strlen(var_key)
 			&& (ft_strncmp(var_key, user_env_list->key,
-				ft_strlen(var_key)) == 0))
+					ft_strlen(var_key)) == 0))
 			return (user_env_list->value);
 		user_env_list = user_env_list->next;
 	}

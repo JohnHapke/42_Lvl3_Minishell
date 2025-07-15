@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:41:50 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:19:42 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ int				ft_token_validator(t_token *token_list);
 int				ft_parsing_handler(t_shell *shell, char *line);
 
 // Expansion
-void			ft_expand_variables(t_shell *shell, char **value);
 int				ft_expansion_handler(t_shell *shell, t_token **token_list);
 void			ft_var_extract_handler(t_shell *shell, t_token **token_list);
 char			*ft_get_var_key(char *str);
@@ -187,15 +186,21 @@ void			ft_list_close(void *data);
 
 // Execution
 int				ft_execution_handler(t_shell *shell, t_command **command);
+int				ft_begin_pipeline(t_shell *shell, t_command **command,
+					t_list **open_pids, int *stdio_fd);
 int				ft_redirect_handler(t_redir *redir);
 int				ft_process(t_shell *shell, t_command *command, int *pipe_fd,
 					t_list **open_pids);
+int				ft_process_setup(t_shell *shell, t_command *cmd,
+					pid_t **pid, char **cmd_path);
 void			ft_execution(t_command *command, char *cmd_path, char **env);
 void			ft_free(char **path);
 int				ft_control_waitpid_status(int status);
 
 char			*ft_get_relative_cmd_path(char *cmd);
 char			*ft_get_cmd_path(char *cmd, char **env);
+
+void			ft_close_pipe(int *pipe);
 
 // Builtins
 int				ft_builtin_handler(t_shell *shell, t_command *command,
