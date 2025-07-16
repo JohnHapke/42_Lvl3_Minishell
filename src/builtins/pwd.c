@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:26 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/16 08:25:05 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 14:10:57 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// implementation should be correct
 
 int	ft_pwd(t_shell *shell, char **argv)
 {
@@ -25,8 +23,7 @@ int	ft_pwd(t_shell *shell, char **argv)
 		return (ft_other_error(E_OTHER, argv[0]));
 	else
 	{
-		write(STDOUT_FILENO, buffer, ft_strlen(buffer));
-		write(STDOUT_FILENO, "\n", 1);
+		printf("%s\n", buffer);
 		free(buffer);
 	}
 	return (EXIT_SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/16 08:26:56 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 14:21:14 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_env_add_back(t_env **lst, t_env *new_node)
 	}
 }
 
-void	ft_init_environment(t_shell *shell, char **envp)
+int	ft_init_environment(t_shell *shell, char **envp)
 {
 	char	*new_key;
 	char	*new_value;
@@ -57,6 +57,8 @@ void	ft_init_environment(t_shell *shell, char **envp)
 		i++;
 	}
 	shell->env_array = malloc((i + 1) * sizeof(char *));
+	if (!shell->env_array)
+		return (ft_other_error(E_MEM, NULL));
 	i = 0;
 	while (envp[i])
 	{
@@ -64,6 +66,7 @@ void	ft_init_environment(t_shell *shell, char **envp)
 		i++;
 	}
 	shell->env_array[i] = NULL;
+	return (0);
 }
 
 void	ft_shell_init(t_shell *shell, char **envp)

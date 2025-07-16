@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 08:27:00 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 13:46:08 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_shell_loop(t_shell *shell)
 
 	while (1)
 	{
-		line = ft_read_input();
+		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
 		if (line[0] != '\0')

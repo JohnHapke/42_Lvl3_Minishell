@@ -3,84 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:00:25 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 08:26:33 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 13:35:44 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_variable_check(char *value)
+static void	ft_next_quote(char *dest, char *src, int *dest_i, int *src_i)
 {
-	int	i;
+	char	quote_type;
 
-	i = 0;
-	if (ft_strchr(value, '=') == NULL || ft_isdigit(value[0]))
-		return (false);
-	while (value[i] != '=')
+	if (!src)
+		return ;
+	quote_type = src[*src_i];
+	(*src_i)++;
+	while (src[*src_i] != quote_type && src[*src_i] != '\0')
 	{
-		if (!ft_isalnum(value[i]) && value[i] != '_')
-			return (false);
-		i++;
+		if (dest)
+			dest[*dest_i] = src[*src_i];
+		(*dest_i)++;
+		(*src_i)++;
 	}
-	return (true);
+	if (src[*src_i] == quote_type)
+		(*src_i)++;
 }
 
 static int	ft_count_unquoted_char(char *str)
 {
-	int		i;
-	int		j;
-	char	quote_type;
+	int	src_i;
+	int	dest_i;
 
-	i = 0;
-	j = 0;
-	while (str[i] != '\0')
+	src_i = 0;
+	dest_i = 0;
+	while (str[src_i] != '\0')
 	{
-		if (str[i] == '\"' || str[i] == '\'')
-		{
-			quote_type = str[i];
-			i++;
-			while (str[i] != quote_type && str[i++] != '\0')
-				j++;
-			if (str[i])
-				i++;
-		}
+		if (str[src_i] == '\"' || str[src_i] == '\'')
+			ft_next_quote(NULL, str, &dest_i, &src_i);
 		else
 		{
-			j++;
-			i++;
+			src_i++;
+			dest_i++;
 		}
 	}
-	return (j);
+	return (dest_i);
 }
 
 char	*ft_get_unquoted_str(char *str)
 {
 	char	*unquoted;
 	int		i;
-	char	quote_type;
+	int		j;
 
+	j = 0;
+	i = 0;
 	unquoted = ft_calloc((ft_count_unquoted_char(str) + 1), sizeof(char));
 	if (!unquoted)
 		return (NULL);
-	i = -1;
-	while ((*str))
+	while (str[j])
 	{
-		if (*str == '\"' || *str == '\'')
-		{
-			quote_type = *str;
-			str++;
-			while (*str != quote_type && *str != '\0')
-				unquoted[++i] = *(str++);
-			if (*str)
-				str++;
-		}
+		if (str[j] == '\"' || str[j] == '\'')
+			ft_next_quote(unquoted, str, &i, &j);
 		else
-			unquoted[++i] = *(str++);
+		{
+			unquoted[i] = str[j];
+			i++;
+			j++;
+		}
 	}
-	unquoted[i + 1] = '\0';
+	unquoted[i] = '\0';
 	return (unquoted);
 }
 

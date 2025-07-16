@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:43:34 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 08:26:21 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 14:20:18 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	ft_process(t_shell *shell, t_command *cmd, int *pipe_fd,
 	int		status;
 
 	status = ft_process_setup(shell, cmd, &pid, &cmd_path);
+	if (status != EXIT_SUCCESS)
+		ft_close_pipe(pipe_fd);
 	if (status != EXIT_SUCCESS)
 		return (status);
 	if (*pid == 0)

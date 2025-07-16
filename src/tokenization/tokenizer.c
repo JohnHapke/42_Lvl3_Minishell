@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:45:17 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/16 08:27:09 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 14:22:25 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ void	ft_token_handler(t_shell *shell, t_token **token_list, char *line)
 			new_node = ft_token_new_node
 				(ft_get_token_value(line, &i, token_type), token_type);
 			if (!new_node)
-				ft_error_handler(ERROR_MEMORY_ALLOC, &shell->exit_status);
+				return (ft_error_handler(ERROR_MEMORY_ALLOC,
+						&shell->exit_status));
 			ft_token_add_back(token_list, new_node);
 		}
 	}

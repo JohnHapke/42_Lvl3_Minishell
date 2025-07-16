@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handling.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 08:26:26 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 14:00:07 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,16 @@ static int	ft_get_ifile(t_redir *redir)
 {
 	int	file_fd;
 
-	if (access(redir->file, R_OK) != 0)
-	{
-		ft_other_error(E_OTHER, redir->file);
-		return (1);
-	}
+	if (access(redir->file, F_OK) != 0 || access(redir->file, R_OK))
+		return (ft_other_error(E_OTHER, redir->file));
 	else
 		file_fd = open(redir->file, O_RDONLY);
 	if (file_fd == -1)
-	{
-		ft_other_error(E_OPEN, redir->file);
-		return (1);
-	}
+		return (ft_other_error(E_OPEN, redir->file));
 	if (dup2(file_fd, STDIN_FILENO) == -1)
 	{
-		ft_other_error(E_OTHER, redir->file);
-		return (1);
+		close(file_fd);
+		return (ft_other_error(E_OTHER, redir->file));
 	}
 	close (file_fd);
 	return (0);
@@ -70,10 +64,7 @@ static int	ft_get_ofile(t_redir *redir)
 	int	file_fd;
 
 	if (access(redir->file, F_OK) == 0 && access(redir->file, W_OK) != 0)
-	{
-		ft_other_error(E_OTHER, redir->file);
-		return (1);
-	}
+		return (ft_other_error(E_OTHER, redir->file));
 	if (redir->type == REDIR_OUT)
 		file_fd = open(redir->file,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -81,14 +72,11 @@ static int	ft_get_ofile(t_redir *redir)
 		file_fd = open(redir->file,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file_fd == -1)
-	{
-		ft_other_error(E_OPEN, redir->file);
-		return (1);
-	}
+		return (ft_other_error(E_OPEN, redir->file));
 	if (dup2(file_fd, STDOUT_FILENO) == -1)
 	{
-		ft_other_error(E_OTHER, redir->file);
-		return (1);
+		close(file_fd);
+		return (ft_other_error(E_OTHER, redir->file));
 	}
 	close(file_fd);
 	return (0);
@@ -104,15 +92,13 @@ bool	ft_heredoc_redirect(t_redir *redir)
 		{
 			fd = ft_heredoc(redir->file);
 			if (fd == -1)
-			{
-				ft_other_error(E_OPEN, redir->file);
-				return (1);
-			}
+				return (ft_other_error(E_OPEN, redir->file));
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				ft_other_error(E_OTHER, redir->file);
-				return (1);
+				close(fd);
+				return (ft_other_error(E_OTHER, redir->file));
 			}
+			close(fd);
 		}
 		redir = redir->next;
 	}
@@ -121,7 +107,7 @@ bool	ft_heredoc_redirect(t_redir *redir)
 
 int	ft_redirect_handler(t_redir *redir)
 {
-	bool	error;
+	int	error;
 
 	error = false;
 	if (ft_heredoc_redirect(redir))
@@ -131,12 +117,12 @@ int	ft_redirect_handler(t_redir *redir)
 		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
 		{
 			if (ft_get_ofile(redir))
-				return (true);
+				return (ERROR_EXIT_FAILURE);
 		}
 		else
 		{
 			if (ft_get_ifile(redir))
-				return (true);
+				return (ERROR_EXIT_FAILURE);
 		}
 		redir = redir->next;
 	}

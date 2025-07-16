@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
+/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:53:53 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 08:26:36 by johnhapke        ###   ########.fr       */
+/*   Updated: 2025/07/16 13:10:35 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_variable_check(char *value)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strchr(value, '=') == NULL || ft_isdigit(value[0]))
+		return (false);
+	while (value[i] != '=')
+	{
+		if (!ft_isalnum(value[i]) && value[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 char	*ft_get_var_key(char *str)
 {

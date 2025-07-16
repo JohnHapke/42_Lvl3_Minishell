@@ -51,13 +51,11 @@ SRC := $(SRC_DIR)/main.c\
 		$(GNL_DIR)/get_next_line.c\
 		$(GNL_DIR)/get_next_line_utils.c\
 
-
-
 OBJ = $(SRC:.c=.o)
 
 FLAGS = -Wall -Wextra -Werror -g
 LIBFT = libft/libft.a
-CC = gcc
+CC = @cc
 
 INCLUDES = -Iinclude -Ilibft -Iget_next_line
 
@@ -87,4 +85,4 @@ fclean: clean
 re: fclean $(NAME)
 	@echo "$(YLW)Rebuilding executable...$(DEF)"
 
-.PHONY: all clean fclean re speak
+.PHONY: all clean fclean re
