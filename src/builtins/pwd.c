@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:12:26 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/10 22:37:31 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:25:05 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 // implementation should be correct
 

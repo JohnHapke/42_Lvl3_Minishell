@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:02:39 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 16:18:55 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:45 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static int	ft_free_return(int exit_code,
 				t_token *token_list, t_command *command_list)

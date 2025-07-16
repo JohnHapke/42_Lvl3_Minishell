@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:46:38 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 16:06:47 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:19:37 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 int	(*ft_is_builtin(char **args))(t_shell *s, char **c)
 {

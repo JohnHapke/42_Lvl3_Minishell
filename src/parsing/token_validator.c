@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_validator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:47 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:45:34 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:52 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static int	ft_validation_error(char *str)
 {

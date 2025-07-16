@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:58:42 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/15 15:36:40 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:25:58 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 int	ft_process_error(t_exec_error error)
 {

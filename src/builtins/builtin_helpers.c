@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:36:34 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 14:54:23 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:24:43 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static size_t	ft_envsize(t_env *lst)
 {

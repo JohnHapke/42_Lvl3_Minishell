@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:36 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/15 15:19:42 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:18:35 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # define _POSIX_C_SOURCE 200809L
 
-# include "../libft/libft.h"
+# include "libft.h"
+# include "get_next_line.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>

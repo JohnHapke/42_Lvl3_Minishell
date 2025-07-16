@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handling.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:48:30 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:26 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-#include "../get_next_line/get_next_line.h"
+#include "minishell.h"
 
 static int	ft_heredoc(char *delimiter)
 {

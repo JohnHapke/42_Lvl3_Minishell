@@ -3,23 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   execution_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 15:41:13 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/15 15:45:43 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:45:30 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 int	ft_single_builtin(t_shell *shell, t_command **command)
 {
 	int	(*func_ptr)(t_shell *, char **);
-	int	stdio_fd[2];
 	int	status;
 
-	stdio_fd[0] = STDIN_FILENO;
-	stdio_fd[1] = STDOUT_FILENO;
 	func_ptr = ft_is_builtin((*command)->args);
 	status = ft_redirect_handler((*command)->redirs);
 	if (status == EXIT_SUCCESS)

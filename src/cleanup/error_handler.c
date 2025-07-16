@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:15 by iherman-          #+#    #+#             */
-/*   Updated: 2025/06/27 14:55:45 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:41:25 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 void	ft_error_handler(t_error_code error_code, int *exit_status)
 {

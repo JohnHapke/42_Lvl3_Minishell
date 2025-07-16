@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   extract_variables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 11:27:53 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/14 19:46:44 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:42 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static t_token	*ft_remove_current_token(t_token **token_list)
 {

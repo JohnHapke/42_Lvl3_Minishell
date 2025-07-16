@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:32:40 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/15 17:13:11 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:27:00 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-#include "../get_next_line/get_next_line.h"
+#include "minishell.h"
 
 char	*ft_read_input(void)
 {

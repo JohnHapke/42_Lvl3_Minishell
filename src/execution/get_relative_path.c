@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_relative_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:17:13 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 13:50:24 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:15 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 char	*ft_other_error_wrapper(t_exec_error error, char *arg)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:18 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/09 15:44:31 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:56 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 t_env	*ft_env_new_node(char *key, char *value)
 {

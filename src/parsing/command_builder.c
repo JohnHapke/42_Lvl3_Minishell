@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:44:41 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/14 19:47:53 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:30 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 t_redir_type	ft_get_redir_type(char	*value)
 {

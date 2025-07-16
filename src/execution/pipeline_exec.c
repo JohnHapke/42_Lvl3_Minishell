@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:06:27 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 15:19:07 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:26:18 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 static int	ft_last_command(t_shell *shell, t_list **open_pids,
 				t_command *cmd)

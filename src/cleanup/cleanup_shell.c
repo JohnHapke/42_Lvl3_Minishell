@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: johnhapke <johnhapke@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:28:13 by iherman-          #+#    #+#             */
-/*   Updated: 2025/07/15 14:31:09 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:25:11 by johnhapke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 void	ft_env_lstclear(t_env **lst)
 {
