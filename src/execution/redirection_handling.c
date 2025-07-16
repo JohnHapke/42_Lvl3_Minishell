@@ -6,7 +6,7 @@
 /*   By: iherman- <iherman-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 10:49:22 by jhapke            #+#    #+#             */
-/*   Updated: 2025/07/16 14:00:07 by iherman-         ###   ########.fr       */
+/*   Updated: 2025/07/16 18:15:56 by iherman-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	ft_redirect_handler(t_redir *redir)
 			if (ft_get_ofile(redir))
 				return (ERROR_EXIT_FAILURE);
 		}
-		else
+		else if (redir->type == REDIR_IN)
 		{
 			if (ft_get_ifile(redir))
 				return (ERROR_EXIT_FAILURE);
