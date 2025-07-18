@@ -1,5 +1,7 @@
 # Minishell - A Simple Shell Implementation
 
+This was a group project which was developed with my teammate and team lead Igor (https://github.com/iherman-p). We began with a basic roadmap and followed an agile, adaptive approach throughout the development of the project. Most of the work was done in pair programming mode to ensure clarity, consistency, and shared ownership.
+
 ## Purpose
 > The purpose of the Minishell project is to create a C program that implements a simplified version of bash, providing hands-on experience with process management, file descriptors, and system calls. The program demonstrates understanding of shell mechanics, signal handling, and inter-process communication while recreating core shell functionality.
 
@@ -23,12 +25,12 @@ The program starts by:
 - Displaying the shell prompt
 
 ### Command Processing Pipeline
-1. **Input Reading**: Uses readline() to capture user input with history support
-2. **Lexical Analysis (Lexer)**: Tokenizes raw input into discrete tokens (commands, arguments, operators, redirections, quotes, variables)
-3. **Token Processing**: Handles quote removal, validates token sequences, and prepares tokens for expansion
-4. **Token Expansion**: Processes environment variables ($VAR), exit status ($?), and other expansions on relevant tokens
-5. **Command List Generation**: Transforms processed tokens into structured command objects with proper relationships
-6. **Execution**: Forks processes and executes commands from the command list with proper I/O redirection
+1. **Input Reading**: Captures user input using `readline()` with command history support.
+2. **Tokenization**: The input line is split into tokens (words, redirections an pipes) via a tokenizer, not a standalone lexer module.
+3. **Token Validation and Processing**: Validates token sequence correctness.
+4. **Token Expansion**: Applies environment variable expansion (`$VAR`), special expansions like `$?`, and quote handling.
+5. **Command Parsing**: Converts the expanded token list into a command list, including handling of redirections and pipes.
+6. **Execution**: Executes the command list by forking and setting up appropriate I/O redirection, with proper cleanup.
 
 ### Core Features
 
@@ -90,12 +92,11 @@ Interactive mode signal handling:
 - **Command List Structure**: Efficient representation of parsed commands for execution
 
 ## Architecture Highlights
-- **Lexer-First Design**: Clean separation between tokenization, expansion, and execution phases
-- **Token-Based Processing**: Structured approach allowing precise control over each processing stage
-- **Single Global Variable**: Used only for signal number storage (following strict guidelines)
-- **Modular Design**: Separate lexing, token processing, expansion, and execution modules
-- **Robust Error Handling**: Graceful handling of edge cases and invalid inputs
-- **Memory Safety**: Proper allocation/deallocation with no memory leaks
+- **Tokenizer-Based Design**: Tokenization is performed by a dedicated tokenizer function, without using a separate lexer module.
+- **Modular Command Pipeline**: Clearly separated stages for tokenization, validation, expansion, parsing, and execution.
+- **Single Global Variable**: Used exclusively for storing the signal number (adhering to 42-school constraints).
+- **Memory Safety**: All allocated memory is freed after use; tested with Valgrind to ensure no memory leaks.
+- **Error Robustness**: Errors in any stage (invalid syntax, expansion failures, command errors) are handled gracefully with proper exit statuses.
 
 ## Requirements
 - Compliance with 42 School coding standards (Norm)
@@ -104,4 +105,7 @@ Interactive mode signal handling:
 - Bash-compatible behavior for supported features
 - Use of authorized external functions only
 
-## Grade: tbd/100
+## Grade: 100/100
+
+#### Used Tests
+minishell-tester: [https://github.com/michmos/42_pipex_tester/tree/main](https://github.com/LucasKuhn/minishell_tester)
